@@ -1,5 +1,6 @@
 using BlazorApp.Components;
 using Domain.Models.DB;
+using Domain.Models.Service;
 
 namespace BlazorApp
 {
@@ -15,9 +16,10 @@ namespace BlazorApp
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddSingleton(new DBService(connectionString));
 
+            builder.Services.AddScoped<IBoligService, BoligService>();
             var app = builder.Build(); 
 
-
+            
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
