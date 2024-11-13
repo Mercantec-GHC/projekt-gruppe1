@@ -14,9 +14,11 @@ namespace Domain.Models.Service
         }
         public async Task<List<House>> GetAllHouses()
         {
+            //typeid its type House
             using var connection = _dbService.GetConnection();
             var query = @"SELECT *
-							FROM ""properties"" ";
+							FROM ""properties""
+                            WHERE ""typeid"" = 1";
 
             var houses = await connection.QueryAsync<House>(query);
             return houses.ToList();
