@@ -1,0 +1,53 @@
+﻿@page "/apartments"
+@inject IBoligService BoligService
+
+<h3>Apartment List</h3>
+
+@if (apartments == null)
+{
+    <span>Loading...</span>
+}
+else if (apartments.Count == 0)
+{
+    <span>No apartments found</span>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            @foreach (var apartment in apartments)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="@apartment.Pictures" alt="House Image" class="card-img-top" />
+                        <div class="card-body">
+                            <h5 class="card-title">@apartment.Title</h5>
+                            <p class="card-text">@apartment.Description</p>
+                            <ul class="list-unstyled">
+                                <li><strong>Pris: </strong> @((int)apartment.Price) Kr</li>
+                                <li><strong>Location:</strong> @apartment.Location</li>
+                                <li><strong>Størrelse:</strong> @apartment.SquareMeters m²</li>
+                                <li><strong>Year:</strong> @apartment.Year</li>
+                                <li><strong>Description:</strong> @apartment.Description</li>
+                                <li><strong>Rum:</strong> @apartment.RoomsCount</li>
+                                <li><strong>Floor-On:</strong> @apartment.floor</li>
+                                <li><strong>Elevator:</strong> @(apartment.haselevator ? "Ja" : "Nej")</li>
+                                <li><strong>Balcony</strong> @(apartment.hasbalcony ? "Ja" : "Nej")</li>
+                                <li><strong>Created At:</strong> @apartment.CreatedAt</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private List<Apartment>? apartments = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        apartments = await BoligService.GetAllApartments();
+    }
+}

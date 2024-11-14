@@ -1,0 +1,54 @@
+﻿@page "/summerhouse"
+@inject IBoligService BoligService
+
+<h3>Summer House List</h3>
+
+@if (summerhouses == null)
+{
+    <span>Loading...</span>
+}
+else if (summerhouses.Count == 0)
+{
+    <span>No summer houses found</span>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            @foreach (var summerhouse in summerhouses)
+            {
+                summerhouse.IsSeasonal = false;
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="@summerhouse.Pictures" alt="Summer House Image" class="card-img-top" />
+                        <div class="card-body">
+                            <h5 class="card-title">@summerhouse.Title</h5>
+                            <p class="card-text">@summerhouse.Description</p>
+                            <ul class="list-unstyled">
+                                <li><strong>Pris: </strong> @((int)summerhouse.Price ) Kr</li>
+                                <li><strong>Location:</strong> @summerhouse.Location</li>
+                                <li><strong>Størrelse:</strong> @summerhouse.SquareMeters m²</li>
+                                <li><strong>Year:</strong> @summerhouse.Year</li>
+                                <li><strong>Description:</strong> @summerhouse.Description</li>
+                                <li><strong>Rum:</strong> @summerhouse.RoomsCount</li>
+                                <li><strong>DistanceToBeach</strong> @summerhouse.distancetobeach</li>
+                                <li><strong>Sæsonbolig:</strong> @(summerhouse.IsSeasonal ? "Ja" : "Nej")</li>
+                                <li><strong>Pool</strong> @(summerhouse.hasprivatepool ? "Ja" : "Nej")</li>
+                                <li><strong>Created At:</strong> @summerhouse.CreatedAt</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private List<SummerHouse>? summerhouses = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        summerhouses = await BoligService.GetAllSummerHouses();
+    }
+}

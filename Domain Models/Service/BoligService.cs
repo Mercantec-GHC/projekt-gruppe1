@@ -12,16 +12,38 @@ namespace Domain.Models.Service
         {
             _dbService = dbService;
         }
+
         public async Task<List<House>> GetAllHouses()
         {
-            //typeid its type House
             using var connection = _dbService.GetConnection();
             var query = @"SELECT *
-							FROM ""properties""
-                            WHERE ""typeid"" = 1";
+                          FROM ""properties""
+                          WHERE ""typeid"" = 1";
 
             var houses = await connection.QueryAsync<House>(query);
             return houses.ToList();
+        }
+
+        public async Task<List<Apartment>> GetAllApartments()
+        {
+            using var connection = _dbService.GetConnection();
+            var query = @"SELECT *
+                          FROM ""properties""
+                          WHERE ""typeid"" = 2"; 
+
+            var apartments = await connection.QueryAsync<Apartment>(query);
+            return apartments.ToList();
+        }
+
+        public async Task<List<SummerHouse>> GetAllSummerHouses()
+        {
+            using var connection = _dbService.GetConnection();
+            var query = @"SELECT *
+                          FROM ""properties""
+                          WHERE ""typeid"" = 3"; 
+
+            var summerhouses = await connection.QueryAsync<SummerHouse>(query);
+            return summerhouses.ToList();
         }
     }
 }
