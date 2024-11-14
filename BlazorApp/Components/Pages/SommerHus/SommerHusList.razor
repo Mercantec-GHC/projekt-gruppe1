@@ -48,9 +48,16 @@ else
 
 @code {
     private List<SummerHouse>? summerhouses = null;
+    private List<Pictures>? pictures = null;
 
     protected override async Task OnInitializedAsync()
     {
-        summerhouses = await BoligService.GetAllSummerHouses();
+        summerhouses = await BoligService.GetAllSummerHouses();  
+        pictures = await BoligService.GetAllPictures();  
+
+        foreach (var summerhouse in summerhouses)
+        {
+            summerhouse.Pictures = pictures.Where(p => p.PropertyId == summerhouse.Id).ToList(); 
+        }
     }
 }

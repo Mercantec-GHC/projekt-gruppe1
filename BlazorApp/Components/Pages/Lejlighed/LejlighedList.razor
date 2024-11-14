@@ -45,11 +45,18 @@ else
     </div>
 }
 
-@code {
+@code 
+{
     private List<Apartment>? apartments = null;
+    private List<Pictures>? pictures = null;
 
     protected override async Task OnInitializedAsync()
     {
-        apartments = await BoligService.GetAllApartments();
+        apartments = await BoligService.GetAllApartments(); 
+        pictures = await BoligService.GetAllPictures();
+
+        foreach (var apartment in apartments)
+        {
+            apartment.Pictures = pictures.Where(p => p.PropertyId == apartment.Id).ToList(); 
     }
 }
