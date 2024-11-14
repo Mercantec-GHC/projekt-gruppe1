@@ -19,10 +19,9 @@ else
             {
                 var firstImage = summerhouse.Pictures?.FirstOrDefault()?.PictureLink;
 
-                summerhouse.IsSeasonal = false;
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
-                        <img src="@summerhouse.Pictures" alt="Summer House Image" class="card-img-top" />
+                        <img src="@firstImage" alt="Summer House Image" class="card-img-top" />
                         <div class="card-body">
                             <h5 class="card-title">@summerhouse.Title</h5>
                             <p class="card-text">@summerhouse.Description</p>

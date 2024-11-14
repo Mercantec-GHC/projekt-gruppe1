@@ -21,7 +21,7 @@ else
 
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
-                        <img src="@apartment.Pictures" alt="House Image" class="card-img-top" />
+                        <img src="@firstImage" alt="House Image" class="card-img-top" />
                         <div class="card-body">
                             <h5 class="card-title">@apartment.Title</h5>
                             <p class="card-text">@apartment.Description</p>
@@ -57,6 +57,7 @@ else
 
         foreach (var apartment in apartments)
         {
-            apartment.Pictures = pictures.Where(p => p.PropertyId == apartment.Id).ToList(); 
+            apartment.Pictures = pictures.Where(p => p.PropertyId == apartment.Id).ToList();
+        }
     }
 }
