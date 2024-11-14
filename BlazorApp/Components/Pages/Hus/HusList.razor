@@ -17,8 +17,6 @@ else
         <div class="row">
             @foreach (var house in houses)
             {
-                var firstImage = house.Pictures?.FirstOrDefault()?.PictureLink;
-
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
                         <img src="@firstImage" alt="House Image" class="card-img-top" />
@@ -43,7 +41,7 @@ else
             }
         </div>
     </div>
-}
+}   
 
 @code {
     private List<House>? houses = null;
