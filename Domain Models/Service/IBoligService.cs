@@ -5,5 +5,6 @@ namespace Domain.Models.Service
     public interface IBoligService
     {
         Task<List<House>> GetAllHouses();
+        Task<List<Pictures>> GetAllPictures();
     }
 }

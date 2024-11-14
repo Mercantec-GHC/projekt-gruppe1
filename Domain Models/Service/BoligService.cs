@@ -23,5 +23,15 @@ namespace Domain.Models.Service
             var houses = await connection.QueryAsync<House>(query);
             return houses.ToList();
         }
+
+        public async Task<List<Pictures>> GetAllPictures()
+        {
+            using var connection = _dbService.GetConnection();
+            var query = @"SELECT *
+							FROM ""pictures"" ";
+
+            var pictures = await connection.QueryAsync<Pictures>(query);
+            return pictures.ToList();
+        }
     }
 }
