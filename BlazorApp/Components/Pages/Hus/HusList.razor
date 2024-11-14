@@ -17,9 +17,11 @@ else
         <div class="row">
             @foreach (var house in houses)
             {
+                var firstImage = house.Pictures?.FirstOrDefault()?.PictureLink;
+
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
-                        <img src="@house.Pictures" alt="House Image" class="card-img-top" />
+                        <img src="@firstImage" alt="House Image" class="card-img-top" />
                         <div class="card-body">
                             <h5 class="card-title">@house.Title</h5>
                             <p class="card-text">@house.Description</p>
@@ -45,9 +47,16 @@ else
 
 @code {
     private List<House>? houses = null;
+    private List<Pictures>? pictures = null;
 
     protected override async Task OnInitializedAsync()
     {
         houses = await BoligService.GetAllHouses();
+        pictures = await BoligService.GetAllPictures();
+
+        foreach (var house in houses)
+        {
+            house.Pictures = pictures.Where(p => p.PropertyId == house.Id);
+        }
     }
 }

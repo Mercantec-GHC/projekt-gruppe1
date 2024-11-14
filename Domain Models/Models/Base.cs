@@ -11,7 +11,9 @@
         public int RoomsCount { get; set; }
         public int? OwnerId { get; set; }
         public decimal? Price {  get; set; }
-        public List<string>? Pictures { get; set; }
+
+        public IEnumerable<Pictures> Pictures { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }

@@ -45,5 +45,14 @@ namespace Domain.Models.Service
             var summerhouses = await connection.QueryAsync<SummerHouse>(query);
             return summerhouses.ToList();
         }
+        public async Task<List<Pictures>> GetAllPictures()
+        {
+            using var connection = _dbService.GetConnection();
+            var query = @"SELECT *
+						FROM ""pictures"" ";
+
+            var pictures = await connection.QueryAsync<Pictures>(query);
+            return pictures.ToList();
+        }
     }
 }

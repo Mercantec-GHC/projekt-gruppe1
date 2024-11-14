@@ -17,6 +17,8 @@ else
         <div class="row">
             @foreach (var apartment in apartments)
             {
+                var firstImage = apartment.Pictures?.FirstOrDefault()?.PictureLink;
+
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
                         <img src="@apartment.Pictures" alt="House Image" class="card-img-top" />
