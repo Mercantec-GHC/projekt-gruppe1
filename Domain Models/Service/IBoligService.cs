@@ -9,5 +9,7 @@ namespace Domain.Models.Service
         Task<List<Apartment>> GetAllApartments();
         Task<List<SummerHouse>> GetAllSummerHouses();
         Task<List<Pictures>> GetAllPictures();
-    }
+        Task<List<AllHouses>> GetAll();
+
+	}
 }

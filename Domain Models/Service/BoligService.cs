@@ -13,7 +13,21 @@ namespace Domain.Models.Service
             _dbService = dbService;
         }
 
-        public async Task<List<House>> GetAllHouses()
+		public async Task<List<AllHouses>> GetAll()
+		{
+			using var connection = _dbService.GetConnection();
+
+			var query = @"
+                    SELECT ""id"", ""title"", ""year"", ""squaremeters"", ""location"", ""description"", ""roomscount"", ""price"", ""createdat""
+                    FROM ""properties""";
+
+			var houses = await connection.QueryAsync<AllHouses>(query);
+
+			return houses.ToList();
+		}
+
+
+		public async Task<List<House>> GetAllHouses()
         {
             using var connection = _dbService.GetConnection();
             var query = @"SELECT *

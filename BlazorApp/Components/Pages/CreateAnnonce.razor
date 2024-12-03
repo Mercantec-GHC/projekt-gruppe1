@@ -1,0 +1,167 @@
+﻿ @page "/create"
+
+<div class="main-wrapper">
+    <!-- Banner Section Start -->
+    <section class="inner-page-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-content position-relative">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-white">Home</a></li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">Create Annonce</li>
+                        </ul>
+                        <h1 class="breadcrumb-title text-white">Create</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Banner Section End -->
+
+    <section class="page-login-section pb-5">
+        <div class="container">
+            <h1 class="text-center">Fill out the form</h1>
+
+
+
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer id="footer" class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="footer-about">
+                        <h3 class="font-18 text-white">About Site</h3>
+                        <p class="mt-4 pt-2 pe-4">Real Homes is a premium WordPress theme for real estate where modern aesthetics are combined with tasteful simplicity.</p>
+                        <a href="#" class="text-body text-decoration-none">Read More <i class="fas fa-chevron-right ms-2"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
+                    <h3 class="font-18 text-white">Contact Us</h3>
+                    <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i>4417 Langtown Road, Davenport, Iowa</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+123-456-789</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+123-456-789</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>sales@example.com</p>
+                </div>
+                <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
+                    <h3 class="font-18 text-white">Remain Updated</h3>
+                    <form class="nl-form mt-4 pt-2">
+                        <input type="email" class="form-control" id="email">
+                        <button type="submit" class="btn btn-warning py-2 px-4 mt-3">Submit</button>
+                    </form>
+                    <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
+                        <li class="list-inline-item">
+                            <a href="#"><i class="fab fa-facebook-f font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#"><i class="fab fa-instagram font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#"><i class="fab fa-twitter font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#"><i class="fab fa-youtube font-22"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom row">
+                <div class="col-md-4 col-lg-6">
+                    <p>© 2023. All rights reserved.</p>
+                </div>
+                <div class="col-md-8 col-lg-6 text-md-end">
+                    <ul class="list-inline footer-link">
+                        <li class="list-inline-item">
+                            <a href="#" class="text-decoration-none">Contact Us</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="text-decoration-none">FAQ</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="text-decoration-none">Privacy</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="text-decoration-none">Terms & Conditions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<!-- Required JS -->
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="libs/fontawesome/js/all.js"></script>
+<script src="js/isotope.pkgd.min.js"></script>
+<script src="js/custom.js"></script>
+
+<script>
+
+    var TxtType = function (el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = '';
+        this.tick();
+        this.isDeleting = false;
+    };
+
+    TxtType.prototype.tick = function () {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+            this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+            this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
+
+        var that = this;
+        var delta = 200 - Math.random() * 100;
+
+        if (this.isDeleting) { delta /= 2; }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+            delta = this.period;
+            this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === '') {
+            this.isDeleting = false;
+            this.loopNum++;
+            delta = 500;
+        }
+
+        setTimeout(function () {
+            that.tick();
+        }, delta);
+    };
+
+    window.onload = function () {
+
+        var elements = document.getElementsByClassName('typewrite');
+        for (var i = 0; i < elements.length; i++) {
+            var toRotate = elements[i].getAttribute('data-type');
+            var period = elements[i].getAttribute('data-period');
+            if (toRotate) {
+                new TxtType(elements[i], JSON.parse(toRotate), period);
+            }
+        }
+
+        // INJECT CSS
+
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+        document.body.appendChild(css);
+
+    };
+</script>

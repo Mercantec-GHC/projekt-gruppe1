@@ -1,36 +1,317 @@
 ﻿@page "/"
+@inject IBoligService BoligService
+<div class="main-wrapper">
+	<!-- Banner Section Start -->
+	<section id="home-banner" class="home-banner" style="background-image: url('images/banner-1.jpg');">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12">
+					<h1 class="text-white banner-title font-48 text-center">
+						Bedste sted at finde
+						<span class="typewrite text-orange" data-period="2000" data-type='[ "lejlighed.", "drømmehjem.", "sommerhus." ,"din drømme." ]'>
+							<span class="wrap"></span>
+						</span>
+					</h1>
 
-@inject DBService DbService
+					<p class="banner-desc text-white font-22 text-center">Er du den første til at ringe om en ny annonce, får du 10 % rabat.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Banner Section End -->
+	<!-- Category Box Section Start -->
 
-<PageTitle>Home</PageTitle>
+	<section class="home-category-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-2 col-md-4 mb-3 mb-lg-0">
+					<div class="card border-0 category-box">
+						<div class="card-body text-center">
+							<img src="images/category-1.png" alt="category-image" class="img-fluid mb-3">
+							<h3 class="font-20"><a href="apartments" class="text-decoration-none stretched-link">Lejlighed</a></h3>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-4 mb-3 mb-lg-0">
+					<div class="card border-0 category-box">
+						<div class="card-body text-center">
+							<img src="images/category-2.png" alt="category-image" class="img-fluid mb-3">
+							<h3 class="font-20"><a href="houses" class="text-decoration-none stretched-link">Hus</a></h3>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-2 col-md-4 mb-3 mb-lg-0">
+					<div class="card border-0 category-box">
+						<div class="card-body text-center">
+							<img src="images/category-6.png" alt="category-image" class="img-fluid mb-3">
+							<h3 class="font-20"><a href="summerhouse" class="text-decoration-none stretched-link">Sommerhus</a></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-<h1>Hello</h1>
+	<!-- Category Box Section End -->
+	<!-- Featured Property Section Start -->
 
-Welcome to your new app.
+	<section class="home-featured-property spacer">
+		<div class="container">
+			<h2 class="text-center">Udvalgte boliger</h2>
+			<p class="text-center">Seneste annoncer for boliger.</p>
+			<div class="owl-carousel owl-theme featured-property-carousel mt-5">
+				@if (houses == null)
+				{
+					<div>Loading...</div>
+				}
+				else if (houses.Count == 0)
+				{
+					<div>No featured properties found</div>
+				}
+				else
+				{
+					@foreach (var house in houses)
+					{
+						var firstImage = house.Pictures?.FirstOrDefault()?.PictureLink;
+						<div class="featured-item w-100">
+							<div class="card d-flex flex-column">
+								<div class="featured-product-img position-relative">
+									<img src="@firstImage" alt="featured-property" class="img-fluid w-100 fe-pro-img" />
+									<div class="property-details mb-2">
+										<h4 class="text-white mb-0">@((int)house.Price) /<span>dkk</span></h4>
+									</div>
+									<div class="property-tag">
+										<ul class="list-unstyled mb-0">
+											<li class="bg-blue">Sælg</li>
+										</ul>
+									</div>
+									<span class="featured-property me-2 text-white bg-green"><i class="fas fa-star font-12"></i></span>
+									<span class="hot-property me-2 text-white bg-orange"><i class="fas fa-fire font-12"></i></span>
+								</div>
+								<div class="card-body d-flex flex-column">
+									<p class="text-orange mb-0">Lejlighed</p>
+									<h4 class="font-20 product-title">
+										<a href="@($"/houses/{house.Id}")" class="text-decoration-none">@house.Title</a>
+									</h4>
+									<p><i class="fas fa-map-marker-alt"></i> @house.Location</p>
+									<ul class="list-unstyled d-flex justify-content-between mb-0 mt-auto">
+										<li>
+											<p class="mb-0">@house.RoomsCount <i class="fas fa-bed"></i></p>
+											badeværelse
+										</li>
+										<li>
+											<p class="mb-0">@house.SquareMeters <i class="fas fa-vector-square"></i></p>
+											kvadratmeter
+										</li>
+									</ul>
+								</div>
+								<div class="property-footer border-top">
+									<div class="card-body">
+										<div class="property-footer-meta d-flex align-items-center">
+											<div class="property-year ms-auto">
+												<p class="mb-0">@house.CreatedAt.ToString("d MMM yyyy")</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
 
-<p>@connectionStatus</p>
 
-@code
+				}
+			</div>
+			<div class="text-center mt-4">
+				<a href="javascript:void(0)" class="btn btn-warning view-all-btn">Se alle boliger</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Featured Property Section End -->
+	<!-- CTA Section Start -->
+
+	<section class="home-cta-section">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-md-8">
+					<div class="call-to-action-meta">
+						<div class="cta-info">
+							<h1 class="text-white">Leder du efter et drømmehus?</h1>
+							<p class="text-white mb-0">Vi kan hjælpe dig med at realisere din drøm om et nyt hjem</p>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+
+	<!-- CTA Section End -->
+	<!-- Footer -->
+	<footer id="footer" class="footer-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-lg-4">
+					<div class="footer-about">
+						<h3 class="font-18 text-white">About Site</h3>
+						<p class="mt-4 pt-2 pe-4">Real Homes is a premium WordPress theme for real estate where modern aesthetics are combined with tasteful simplicity.</p>
+						<a href="#" class="text-body text-decoration-none">Read More <i class="fas fa-chevron-right ms-2"></i></a>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 mt-4 mt-md-0">
+					<h3 class="font-18 text-white">Contact Us</h3>
+					<p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i>4417 Langtown Road, Davenport, Iowa</p>
+					<p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+123-456-789</p>
+					<p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+123-456-789</p>
+					<p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>sales@example.com</p>
+				</div>
+				<div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
+					<h3 class="font-18 text-white">Remain Updated</h3>
+					<form class="nl-form mt-4 pt-2">
+						<input type="email" class="form-control" id="email">
+						<button type="submit" class="btn btn-warning py-2 px-4 mt-3">Submit</button>
+					</form>
+					<ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
+						<li class="list-inline-item">
+							<a href="#"><i class="fab fa-facebook-f font-22"></i></a>
+						</li>
+						<li class="list-inline-item">
+							<a href="#"><i class="fab fa-instagram font-22"></i></a>
+						</li>
+						<li class="list-inline-item">
+							<a href="#"><i class="fab fa-twitter font-22"></i></a>
+						</li>
+						<li class="list-inline-item">
+							<a href="#"><i class="fab fa-youtube font-22"></i></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="footer-bottom row">
+				<div class="col-md-4 col-lg-6">
+					<p>© 2023. All rights reserved.</p>
+				</div>
+				<div class="col-md-8 col-lg-6 text-md-end">
+					<ul class="list-inline footer-link">
+						<li class="list-inline-item">
+							<a href="#" class="text-decoration-none">Contact Us</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="#" class="text-decoration-none">FAQ</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="#" class="text-decoration-none">Privacy</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="#" class="text-decoration-none">Terms & Conditions</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+<!-- Required JS -->
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="libs/fontawesome/js/all.js"></script>
+<script src="js/isotope.pkgd.min.js"></script>
+<script src="js/custom.js"></script>
+
+<script>
+
+	var TxtType = function (el, toRotate, period) {
+		this.toRotate = toRotate;
+		this.el = el;
+		this.loopNum = 0;
+		this.period = parseInt(period, 10) || 2000;
+		this.txt = '';
+		this.tick();
+		this.isDeleting = false;
+	};
+
+	TxtType.prototype.tick = function () {
+		var i = this.loopNum % this.toRotate.length;
+		var fullTxt = this.toRotate[i];
+
+		if (this.isDeleting) {
+			this.txt = fullTxt.substring(0, this.txt.length - 1);
+		} else {
+			this.txt = fullTxt.substring(0, this.txt.length + 1);
+		}
+
+		this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
+
+		var that = this;
+		var delta = 200 - Math.random() * 100;
+
+		if (this.isDeleting) { delta /= 2; }
+
+		if (!this.isDeleting && this.txt === fullTxt) {
+			delta = this.period;
+			this.isDeleting = true;
+		} else if (this.isDeleting && this.txt === '') {
+			this.isDeleting = false;
+			this.loopNum++;
+			delta = 500;
+		}
+
+		setTimeout(function () {
+			that.tick();
+		}, delta);
+	};
+
+	window.onload = function () {
+
+		var elements = document.getElementsByClassName('typewrite');
+		for (var i = 0; i < elements.length; i++) {
+			var toRotate = elements[i].getAttribute('data-type');
+			var period = elements[i].getAttribute('data-period');
+			if (toRotate) {
+				new TxtType(elements[i], JSON.parse(toRotate), period);
+			}
+		}
+
+		// INJECT CSS
+
+		var css = document.createElement("style");
+		css.type = "text/css";
+		css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+		document.body.appendChild(css);
+
+	};
+</script>
+
+@* Scripts Section *@
+<Scripts>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="libs/fontawesome/js/all.js"></script>
+    <script src="js/isotope.pkgd.min.js"></script>
+    <script src="js/custom.js"></script>
+</Scripts>
+
+@code 
 {
-    private string connectionStatus;
+	private List<AllHouses>? houses = null;
+	private List<Pictures>? pictures = null;
 
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            using var connection = DbService.GetConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connectionStatus = "Database connection successful!";
-            }
-            else
-            {
-                connectionStatus = "Failed to connect to the database.";
-            }
-        }
-        catch (Exception ex)
-        {
-            connectionStatus = $"Error: {ex.Message}";
-        }
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		houses = (await BoligService.GetAll())
+				.OrderByDescending(h => h.CreatedAt) 
+				.Take(5) 
+				.ToList();
+
+
+		pictures = await BoligService.GetAllPictures();
+
+		foreach (var house in houses)
+		{
+			house.Pictures = pictures.Where(p => p.PropertyId == house.Id);
+		}
+	}
 }
