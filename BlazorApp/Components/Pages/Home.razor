@@ -77,7 +77,9 @@
 						<div class="featured-item w-100">
 							<div class="card d-flex flex-column">
 								<div class="featured-product-img position-relative">
-									<img src="@firstImage" alt="featured-property" class="img-fluid w-100 fe-pro-img" />
+									<a href="@GetHouseUrl(house)">
+										<img src="@firstImage" alt="featured-property" class="img-fluid w-100 fe-pro-img" />
+									</a>
 									<div class="property-details mb-2">
 										<h4 class="text-white mb-0">@((int)house.Price) /<span>dkk</span></h4>
 									</div>
@@ -92,7 +94,7 @@
 								<div class="card-body d-flex flex-column">
 									<p class="text-orange mb-0">Lejlighed</p>
 									<h4 class="font-20 product-title">
-										<a href="@($"/houses/{house.Id}")" class="text-decoration-none">@house.Title</a>
+										<a href="@GetHouseUrl(house)" class="text-decoration-none">@house.Title</a>
 									</h4>
 									<p><i class="fas fa-map-marker-alt"></i> @house.Location</p>
 									<ul class="list-unstyled d-flex justify-content-between mb-0 mt-auto">
@@ -118,8 +120,6 @@
 							</div>
 						</div>
 					}
-
-
 				}
 			</div>
 			<div class="text-center mt-4">
@@ -312,6 +312,23 @@
 		foreach (var house in houses)
 		{
 			house.Pictures = pictures.Where(p => p.PropertyId == house.Id);
+		}
+	}
+}
+@functions {
+	public string GetHouseUrl(AllHouses house)
+	{
+
+		switch (house.TypeId)
+		{
+			case 1: 
+				return $"/houses/{house.Id}";
+			case 2: 
+				return $"/apartments/{house.Id}";
+			case 3: 
+				return $"/summerhouses/{house.Id}";
+			default:
+				return "#"; 
 		}
 	}
 }

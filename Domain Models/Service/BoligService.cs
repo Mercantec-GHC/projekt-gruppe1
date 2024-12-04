@@ -18,7 +18,7 @@ namespace Domain.Models.Service
 			using var connection = _dbService.GetConnection();
 
 			var query = @"
-                    SELECT ""id"", ""title"", ""year"", ""squaremeters"", ""location"", ""description"", ""roomscount"", ""price"", ""createdat""
+                    SELECT ""id"", ""title"", ""year"", ""squaremeters"", ""location"", ""description"", ""roomscount"", ""price"", ""createdat"", ""typeid""
                     FROM ""properties""";
 
 			var houses = await connection.QueryAsync<AllHouses>(query);

@@ -10,6 +10,7 @@
         public string Description { get; set; }
         public int RoomsCount { get; set; }
         public int? OwnerId { get; set; }
+        public int? TypeId { get; set; }
         public decimal? Price {  get; set; }
         
         public IEnumerable<Pictures> Pictures { get; set; }
