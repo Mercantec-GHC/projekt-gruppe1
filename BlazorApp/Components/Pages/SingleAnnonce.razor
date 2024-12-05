@@ -358,7 +358,7 @@
             }
 
             Property.Pictures = dbPictures.Where(i => i.PropertyId == Id);
-            Properties = await BoligService.GetAllPropeties();
+            Properties = BoligService.GetAllPropeties();
 
             foreach (var item in Properties)
             {

@@ -23,17 +23,17 @@ namespace Domain.Models.Service
             return pictures.ToList();
         }
 
-		public async Task<List<Property>> GetAllPropeties()
+		public List<Property> GetAllPropeties()
 		{
 			using var connection = _dbService.GetConnection();
-			var query = @"SELECT *
-                          FROM ""properties""";
+			var query = @"SELECT * FROM ""properties""";
 
-			var houses = await connection.QueryAsync<Property>(query);
+			var houses = connection.Query<Property>(query);  
 			return houses.ToList();
 		}
 
-        public async Task<IEnumerable<Property>> GetPropertyById(int id)
+
+		public async Task<IEnumerable<Property>> GetPropertyById(int id)
         {
             using var connection = _dbService.GetConnection();
 

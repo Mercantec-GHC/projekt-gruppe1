@@ -53,7 +53,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         // type id = 1 - its House
-        houses = (await BoligService.GetAllPropeties()).Where(i => i.TypeId == 1);
+        houses = (BoligService.GetAllPropeties()).Where(i => i.TypeId == 1);
         pictures = await BoligService.GetAllPictures();
 
         foreach (var house in houses)

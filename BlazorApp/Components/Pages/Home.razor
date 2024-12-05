@@ -56,17 +56,9 @@
 		<div class="container">
 			<h2 class="text-center">Udvalgte boliger</h2>
 			<p class="text-center">Seneste annoncer for boliger.</p>
-			<div class="owl-carousel owl-theme featured-property-carousel mt-5">
-				@if (Properties == null)
+				@if (Properties != null && Properties.Any())
 				{
-					<div>Loading...</div>
-				}
-				else if (Properties.Count == 0)
-				{
-					<div>No featured properties found</div>
-				}
-				else
-				{
+					<div class="owl-carousel owl-theme featured-property-carousel mt-5">
 					@foreach (var property in Properties)
 					{
 						var firstImage = property.Pictures?.FirstOrDefault()?.PictureLink;
@@ -123,8 +115,8 @@
 							</div>
 						</div>
 					}
+				</div>
 				}
-			</div>
 			<div class="text-center mt-4">
 				<a href="/" class="btn btn-warning view-all-btn">Se alle boliger</a>
 			</div>
@@ -205,14 +197,14 @@
 
 @code 
 {
-	private List<Property>? Properties = null;
+	private List<Property>? Properties;
 	private List<Pictures> dbPictures;
 
 	protected override async Task OnInitializedAsync()
 	{
 		try
 		{
-			Properties = (await BoligService.GetAllPropeties()).OrderByDescending(h => h.CreatedAt) .Take(5) .ToList();
+			Properties = BoligService.GetAllPropeties().OrderByDescending(h => h.CreatedAt).Take(5).ToList();
 
 			dbPictures = await BoligService.GetAllPictures();
 
