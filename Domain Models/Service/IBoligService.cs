@@ -5,11 +5,9 @@ namespace Domain.Models.Service
 {
     public interface IBoligService
     {
-        Task<List<House>> GetAllHouses();
-        Task<List<Apartment>> GetAllApartments();
-        Task<List<SummerHouse>> GetAllSummerHouses();
         Task<List<Pictures>> GetAllPictures();
-        Task<List<AllHouses>> GetAll();
-
-	}
+        Task<List<Property>> GetAllPropeties();
+        Task<IEnumerable<Property>> GetPropertyById(int id);
+        Task<List<User>> GetUsers();
+    }
 }

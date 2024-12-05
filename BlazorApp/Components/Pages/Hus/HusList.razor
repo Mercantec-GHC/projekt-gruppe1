@@ -7,7 +7,7 @@
 {
     <span>Loading...</span>
 }
-else if (houses.Count == 0)
+else if (!houses.Any())
 {
     <span>No houses found</span>
 }
@@ -47,12 +47,13 @@ else
 
 @code 
 {
-    private List<House>? houses = null;
+    private IEnumerable<Property>? houses = null;
     private List<Pictures>? pictures = null;
 
     protected override async Task OnInitializedAsync()
     {
-        houses = await BoligService.GetAllHouses();
+        // type id = 1 - its House
+        houses = (await BoligService.GetAllPropeties()).Where(i => i.TypeId == 1);
         pictures = await BoligService.GetAllPictures();
 
         foreach (var house in houses)

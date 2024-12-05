@@ -7,12 +7,8 @@
 			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<h1 class="text-white banner-title font-48 text-center">
-						Bedste sted at finde
-						<span class="typewrite text-orange" data-period="2000" data-type='[ "lejlighed.", "drømmehjem.", "sommerhus." ,"din drømme." ]'>
-							<span class="wrap"></span>
-						</span>
+						Bedste sted at finde <span class="typewrite text-orange">din drømme bolig</span>
 					</h1>
-
 					<p class="banner-desc text-white font-22 text-center">Er du den første til at ringe om en ny annonce, får du 10 % rabat.</p>
 				</div>
 			</div>
@@ -61,27 +57,27 @@
 			<h2 class="text-center">Udvalgte boliger</h2>
 			<p class="text-center">Seneste annoncer for boliger.</p>
 			<div class="owl-carousel owl-theme featured-property-carousel mt-5">
-				@if (houses == null)
+				@if (Properties == null)
 				{
 					<div>Loading...</div>
 				}
-				else if (houses.Count == 0)
+				else if (Properties.Count == 0)
 				{
 					<div>No featured properties found</div>
 				}
 				else
 				{
-					@foreach (var house in houses)
+					@foreach (var property in Properties)
 					{
-						var firstImage = house.Pictures?.FirstOrDefault()?.PictureLink;
+						var firstImage = property.Pictures?.FirstOrDefault()?.PictureLink;
 						<div class="featured-item w-100">
 							<div class="card d-flex flex-column">
 								<div class="featured-product-img position-relative">
-									<a href="@GetHouseUrl(house)">
+									<a href="@property.Id">
 										<img src="@firstImage" alt="featured-property" class="img-fluid w-100 fe-pro-img" />
 									</a>
 									<div class="property-details mb-2">
-										<h4 class="text-white mb-0">@((int)house.Price) /<span>dkk</span></h4>
+										<h4 class="text-white mb-0">@((int)property.Price) /<span>dkk</span></h4>
 									</div>
 									<div class="property-tag">
 										<ul class="list-unstyled mb-0">
@@ -92,27 +88,34 @@
 									<span class="hot-property me-2 text-white bg-orange"><i class="fas fa-fire font-12"></i></span>
 								</div>
 								<div class="card-body d-flex flex-column">
-									<p class="text-orange mb-0">Lejlighed</p>
+									<p class="text-orange mb-0">@property.TypeName</p>
 									<h4 class="font-20 product-title">
-										<a href="@GetHouseUrl(house)" class="text-decoration-none">@house.Title</a>
+										<a href="@property.Id" class="text-decoration-none">@property.Title</a>
 									</h4>
-									<p><i class="fas fa-map-marker-alt"></i> @house.Location</p>
+									<p><i class="fas fa-map-marker-alt"></i> @property.Location</p>
 									<ul class="list-unstyled d-flex justify-content-between mb-0 mt-auto">
 										<li>
-											<p class="mb-0">@house.RoomsCount <i class="fas fa-bed"></i></p>
-											badeværelse
+											<p class="mb-0 d-flex align-items-center">
+												<span class="me-2">@property.RoomsCount</span>
+												<i class="fas fa-bed me-2"></i>
+												<span>værelser</span>
+											</p>
 										</li>
 										<li>
-											<p class="mb-0">@house.SquareMeters <i class="fas fa-vector-square"></i></p>
-											kvadratmeter
+											<p class="mb-0 d-flex align-items-center">
+												<span class="me-2">@property.SquareMeters</span>
+												<i class="fas fa-vector-square me-2"></i>
+												<span>m²</span>
+											</p>
 										</li>
+
 									</ul>
 								</div>
 								<div class="property-footer border-top">
 									<div class="card-body">
 										<div class="property-footer-meta d-flex align-items-center">
 											<div class="property-year ms-auto">
-												<p class="mb-0">@house.CreatedAt.ToString("d MMM yyyy")</p>
+												<p class="mb-0">@property.CreatedAt.ToString("d MMM yyyy")</p>
 											</div>
 										</div>
 									</div>
@@ -123,14 +126,13 @@
 				}
 			</div>
 			<div class="text-center mt-4">
-				<a href="javascript:void(0)" class="btn btn-warning view-all-btn">Se alle boliger</a>
+				<a href="/" class="btn btn-warning view-all-btn">Se alle boliger</a>
 			</div>
 		</div>
 	</section>
 
 	<!-- Featured Property Section End -->
 	<!-- CTA Section Start -->
-
 	<section class="home-cta-section">
 		<div class="container">
 			<div class="row align-items-center">
@@ -154,64 +156,45 @@
 			<div class="row">
 				<div class="col-md-6 col-lg-4">
 					<div class="footer-about">
-						<h3 class="font-18 text-white">About Site</h3>
-						<p class="mt-4 pt-2 pe-4">Real Homes is a premium WordPress theme for real estate where modern aesthetics are combined with tasteful simplicity.</p>
-						<a href="#" class="text-body text-decoration-none">Read More <i class="fas fa-chevron-right ms-2"></i></a>
+						<h3 class="font-18 text-white">Om hjemmesiden</h3>
+						<h3 class="font-18 text-white">Find dit drømmehjem med os – Din pålidelige ejendomspartner</h3>
 					</div>
 				</div>
 				<div class="col-md-6 col-lg-4 mt-4 mt-md-0">
-					<h3 class="font-18 text-white">Contact Us</h3>
-					<p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i>4417 Langtown Road, Davenport, Iowa</p>
-					<p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+123-456-789</p>
-					<p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+123-456-789</p>
-					<p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>sales@example.com</p>
+					<h3 class="font-18 text-white">Kontakt os</h3>
+					<p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i> H.C. Andersens Vej 9, 8800 </p>
+					<p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+45 8950 3300</p>
+					<p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+45 8950 3300</p>
+					<p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>mercantec@mercantec.dk</p>
 				</div>
 				<div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
-					<h3 class="font-18 text-white">Remain Updated</h3>
-					<form class="nl-form mt-4 pt-2">
-						<input type="email" class="form-control" id="email">
-						<button type="submit" class="btn btn-warning py-2 px-4 mt-3">Submit</button>
-					</form>
 					<ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
 						<li class="list-inline-item">
-							<a href="#"><i class="fab fa-facebook-f font-22"></i></a>
+							<a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f font-22"></i></a>
 						</li>
 						<li class="list-inline-item">
-							<a href="#"><i class="fab fa-instagram font-22"></i></a>
+							<a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram font-22"></i></a>
 						</li>
 						<li class="list-inline-item">
-							<a href="#"><i class="fab fa-twitter font-22"></i></a>
+							<a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat font-22"></i></a>
 						</li>
+
 						<li class="list-inline-item">
-							<a href="#"><i class="fab fa-youtube font-22"></i></a>
+							<a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube font-22"></i></a>
 						</li>
 					</ul>
 				</div>
+
 			</div>
 			<div class="footer-bottom row">
 				<div class="col-md-4 col-lg-6">
-					<p>© 2023. All rights reserved.</p>
-				</div>
-				<div class="col-md-8 col-lg-6 text-md-end">
-					<ul class="list-inline footer-link">
-						<li class="list-inline-item">
-							<a href="#" class="text-decoration-none">Contact Us</a>
-						</li>
-						<li class="list-inline-item">
-							<a href="#" class="text-decoration-none">FAQ</a>
-						</li>
-						<li class="list-inline-item">
-							<a href="#" class="text-decoration-none">Privacy</a>
-						</li>
-						<li class="list-inline-item">
-							<a href="#" class="text-decoration-none">Terms & Conditions</a>
-						</li>
-					</ul>
+					<p>© 2024. Alle rettigheder forbeholdes.</p>
 				</div>
 			</div>
 		</div>
 	</footer>
 </div>
+
 <!-- Required JS -->
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.min.js"></script>
@@ -220,115 +203,27 @@
 <script src="js/isotope.pkgd.min.js"></script>
 <script src="js/custom.js"></script>
 
-<script>
-
-	var TxtType = function (el, toRotate, period) {
-		this.toRotate = toRotate;
-		this.el = el;
-		this.loopNum = 0;
-		this.period = parseInt(period, 10) || 2000;
-		this.txt = '';
-		this.tick();
-		this.isDeleting = false;
-	};
-
-	TxtType.prototype.tick = function () {
-		var i = this.loopNum % this.toRotate.length;
-		var fullTxt = this.toRotate[i];
-
-		if (this.isDeleting) {
-			this.txt = fullTxt.substring(0, this.txt.length - 1);
-		} else {
-			this.txt = fullTxt.substring(0, this.txt.length + 1);
-		}
-
-		this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
-
-		var that = this;
-		var delta = 200 - Math.random() * 100;
-
-		if (this.isDeleting) { delta /= 2; }
-
-		if (!this.isDeleting && this.txt === fullTxt) {
-			delta = this.period;
-			this.isDeleting = true;
-		} else if (this.isDeleting && this.txt === '') {
-			this.isDeleting = false;
-			this.loopNum++;
-			delta = 500;
-		}
-
-		setTimeout(function () {
-			that.tick();
-		}, delta);
-	};
-
-	window.onload = function () {
-
-		var elements = document.getElementsByClassName('typewrite');
-		for (var i = 0; i < elements.length; i++) {
-			var toRotate = elements[i].getAttribute('data-type');
-			var period = elements[i].getAttribute('data-period');
-			if (toRotate) {
-				new TxtType(elements[i], JSON.parse(toRotate), period);
-			}
-		}
-
-		// INJECT CSS
-
-		var css = document.createElement("style");
-		css.type = "text/css";
-		css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
-		document.body.appendChild(css);
-
-	};
-</script>
-
-@* Scripts Section *@
-<Scripts>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="libs/fontawesome/js/all.js"></script>
-    <script src="js/isotope.pkgd.min.js"></script>
-    <script src="js/custom.js"></script>
-</Scripts>
-
 @code 
 {
-	private List<AllHouses>? houses = null;
-	private List<Pictures>? pictures = null;
+	private List<Property>? Properties = null;
+	private List<Pictures> dbPictures;
 
 	protected override async Task OnInitializedAsync()
 	{
-		houses = (await BoligService.GetAll())
-				.OrderByDescending(h => h.CreatedAt) 
-				.Take(5) 
-				.ToList();
-
-
-		pictures = await BoligService.GetAllPictures();
-
-		foreach (var house in houses)
+		try
 		{
-			house.Pictures = pictures.Where(p => p.PropertyId == house.Id);
+			Properties = (await BoligService.GetAllPropeties()).OrderByDescending(h => h.CreatedAt) .Take(5) .ToList();
+
+			dbPictures = await BoligService.GetAllPictures();
+
+			foreach (var property in Properties)
+			{
+				property.Pictures = dbPictures.Where(p => p.PropertyId == property.Id);
+			}
 		}
-	}
-}
-@functions {
-	public string GetHouseUrl(AllHouses house)
-	{
-
-		switch (house.TypeId)
+		catch (Exception ex)
 		{
-			case 1: 
-				return $"/houses/{house.Id}";
-			case 2: 
-				return $"/apartments/{house.Id}";
-			case 3: 
-				return $"/summerhouses/{house.Id}";
-			default:
-				return "#"; 
+			Console.WriteLine($"Error loading data: {ex.Message}");
 		}
 	}
 }

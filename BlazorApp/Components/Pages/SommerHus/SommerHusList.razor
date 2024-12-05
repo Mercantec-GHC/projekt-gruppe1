@@ -7,7 +7,7 @@
 {
     <span>Loading...</span>
 }
-else if (summerhouses.Count == 0)
+else if (!summerhouses.Any())
 {
     <span>No summer houses found</span>
 }
@@ -32,9 +32,9 @@ else
                                 <li><strong>Year:</strong> @summerhouse.Year</li>
                                 <li><strong>Description:</strong> @summerhouse.Description</li>
                                 <li><strong>Rum:</strong> @summerhouse.RoomsCount</li>
-                                <li><strong>DistanceToBeach</strong> @summerhouse.distancetobeach</li>
+                                <li><strong>DistanceToBeach</strong> @summerhouse.DistanceToBeach</li>
                                 <li><strong>Sæsonbolig:</strong> @(summerhouse.IsSeasonal ? "Ja" : "Nej")</li>
-                                <li><strong>Pool</strong> @(summerhouse.hasprivatepool ? "Ja" : "Nej")</li>
+                                <li><strong>Pool</strong> @(summerhouse.HasPrivatePool ? "Ja" : "Nej")</li>
                                 <li><strong>Created At:</strong> @summerhouse.CreatedAt</li>
                             </ul>
                         </div>
@@ -46,12 +46,13 @@ else
 }
 
 @code {
-    private List<SummerHouse>? summerhouses = null;
+    private IEnumerable<Property>? summerhouses = null;
     private List<Pictures>? pictures = null;
 
     protected override async Task OnInitializedAsync()
     {
-        summerhouses = await BoligService.GetAllSummerHouses();  
+        // type id = 2 - its Sommerhouse
+        summerhouses = (await BoligService.GetAllPropeties()).Where(i => i.TypeId == 3);
         pictures = await BoligService.GetAllPictures();  
 
         foreach (var summerhouse in summerhouses)

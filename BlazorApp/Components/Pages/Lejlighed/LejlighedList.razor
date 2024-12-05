@@ -7,7 +7,7 @@
 {
     <span>Loading...</span>
 }
-else if (apartments.Count == 0)
+else if (!apartments.Any())
 {
     <span>No apartments found</span>
 }
@@ -32,9 +32,9 @@ else
                                 <li><strong>Year:</strong> @apartment.Year</li>
                                 <li><strong>Description:</strong> @apartment.Description</li>
                                 <li><strong>Rum:</strong> @apartment.RoomsCount</li>
-                                <li><strong>Floor-On:</strong> @apartment.floor</li>
-                                <li><strong>Elevator:</strong> @(apartment.haselevator ? "Ja" : "Nej")</li>
-                                <li><strong>Balcony</strong> @(apartment.hasbalcony ? "Ja" : "Nej")</li>
+                                <li><strong>Floor-On:</strong> @apartment.Floor</li>
+                                <li><strong>Elevator:</strong> @(apartment.HasElevator ? "Ja" : "Nej")</li>
+                                <li><strong>Balcony</strong> @(apartment.HasBalcony ? "Ja" : "Nej")</li>
                                 <li><strong>Created At:</strong> @apartment.CreatedAt</li>
                             </ul>
                         </div>
@@ -47,12 +47,13 @@ else
 
 @code 
 {
-    private List<Apartment>? apartments = null;
+    private IEnumerable<Property>? apartments = null;
     private List<Pictures>? pictures = null;
 
     protected override async Task OnInitializedAsync()
     {
-        apartments = await BoligService.GetAllApartments(); 
+        // type id = 2 - its Apartments
+        apartments = (await BoligService.GetAllPropeties()).Where(i => i.TypeId == 2);
         pictures = await BoligService.GetAllPictures();
 
         foreach (var apartment in apartments)

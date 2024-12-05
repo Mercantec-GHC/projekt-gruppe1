@@ -1,0 +1,374 @@
+﻿@page "/{id:int}"
+@inject IBoligService BoligService
+<div class="main-wrapper">
+    <!-- Banner Section Start -->
+    <section class="inner-page-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-content position-relative">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-white">Home</a></li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">Detalje</li>
+                        </ul>
+                        <h1 class="breadcrumb-title text-white">@Property?.Title</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pt-5 pb-5 bg-light">
+        <div class="container">
+            <div class="row align-items-baseline">
+                <div class="col-lg-7">
+                    <div class="d-md-flex align-items-baseline property-title">
+                        <div class="property-title">
+                            <h1 class="font-30">@Property?.Title</h1>
+                        </div>
+
+                        <div class="property-tag ms-md-auto ms-lg-3">
+                            <ul class="list-inline">
+                                <li class="bg-orange list-inline-item text-white">Til sælg</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="d-md-flex align-items-center property-amnt">
+                        <h2 class="font-30">@Property?.Price/<span>dkk</span></h2>
+                        <ul class="list-inline mt-3 mt-md-0 mb-0 ms-md-auto property-options">
+                            <li class="list-inline-item">
+                                <a href="javascript:void(0)" onclick="window.print()"><i class="fas fa-print"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="d-flex flex-wrap gap-3">
+                    @if (Property != null && Property.Pictures != null && Property.Pictures.Any())
+                    {
+                        @foreach (var image in Property.Pictures)
+                        {
+                            <div class="property-item">
+                                <img src="@image.PictureLink" alt="Image" class="img-fluid w-100 fe-pro-img" />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No images available.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <section class="property-details-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-8 mt-0">
+                    <div class="property-description mb-5">
+                        <h4 class="border-bottom pb-3 mb-4 font-20">Address</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> @Property?.Location</p>
+                    </div>
+                    <div class="property-description mb-5">
+                        <h4 class="border-bottom pb-3 mb-4 font-20">Beskrivelse</h4>
+                        <p>@Property?.Description</p>
+                    </div>
+                    <div class="property-details mb-5">
+                        <h4 class="border-bottom pb-3 mb-4 font-20">Bolig detajler</h4>
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-6 mb-2">Bolig :</div>
+                                    <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">Til sælg</div>
+
+                                    <div class="col-lg-6 col-md-6 col-6 mb-2">Bolig storelse :</div>
+                                    <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.SquareMeters m2 </div>
+
+                                    <div class="col-lg-6 col-md-6 col-6 mb-2">Byggeår :</div>
+                                    <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.Year</div>
+
+                                    @if (Property != null && Property.NumberOfFloors > 0)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Antal etager :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.NumberOfFloors</div>
+
+                                    }
+
+                                    @if (Property != null && Property.HasGarage == true)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Garage :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.HasGarage ? "Ja" : "Nej")
+                                        </div>
+                                    }
+
+                                    @if (Property != null && Property.HasGarden == true)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Haven :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.HasGarden ? "Ja" : "Nej")
+                                        </div>
+                                    }
+
+                                    @if (Property != null)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Antal værelser :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property.RoomsCount</div>
+                                    }
+
+                                    @if (Property != null && Property.Floor > 0)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Etage :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @Property.Floor
+                                        </div>
+                                    }
+
+                                    @if (Property != null)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Elevator :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.HasElevator ? "Ja" : "Nej")
+                                        </div>
+                                    }
+
+                                    @if (Property != null && Property.IsSeasonal == true)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Seasonal :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.IsSeasonal ? "Ja" : "Nej")
+                                        </div>
+                                    }
+
+                                    @if (Property != null && Property.DistanceToBeach > 0)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Afstand til strand :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @Property.DistanceToBeach
+                                        </div>
+                                    }
+
+                                    @if (Property != null && Property.HasPrivatePool == true)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Pool :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.HasPrivatePool ? "Ja" : "Nej")
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="related-property-section mb-5">
+                        <h4 class="border-bottom pb-3 mb-4 font-20">Lignende tilbud</h4>
+                        <div class="related-property">
+                            <div class="row">
+                                @if (Properties != null && Properties.Any())
+                                {
+                                    @foreach (var house in Properties.Where(i => i.Id != Property.Id && i.TypeId == Property.TypeId && Property != null).Take(2))
+                                    {
+                                        var firstImage = house.Pictures?.FirstOrDefault()?.PictureLink;
+                                        <div class="col-md-6">
+                                            <div class="card related-property-card mb-4">
+                                                <div class="related-property-img position-relative">
+                                                    <a href="@house.Id">
+                                                        <img src="@firstImage" alt="featured-property" class="img-fluid w-100 related-pro-img" />
+                                                    </a>
+                                                    <div class="property-details mb-2">
+                                                        <h4 class="text-white mb-0">@((int)house.Price)/<span>dkk</span></h4>
+                                                    </div>
+                                                    <div class="property-tag">
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="bg-blue">Til sælg</li>
+                                                        </ul>
+                                                    </div>
+                                                    <span class="featured-property me-2 text-white bg-green"><i class="fas fa-star font-12"></i></span>
+                                                    <span class="hot-property me-2 text-white bg-orange"><i class="fas fa-fire font-12"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body d-flex flex-column">
+                                            <p class="text-orange mb-0">@house.TypeName</p>
+                                                <h4 class="font-20 product-title">
+                                                    <a href="@house.Id" class="text-decoration-none">@house.Title</a>
+                                                </h4>
+                                                <p><i class="fas fa-map-marker-alt"></i> @house.Location</p>
+                                                <ul class="list-unstyled d-flex justify-content-between mb-0 mt-auto">
+                                                    <li>
+                                                        <p class="mb-0 d-flex align-items-center">
+                                                            <span class="me-2">@house.RoomsCount</span>
+                                                            <i class="fas fa-bed me-2"></i>
+                                                            <span>værelser</span>
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="mb-0 d-flex align-items-center">
+                                                            <span class="me-2">@house.SquareMeters</span>
+                                                            <i class="fas fa-vector-square me-2"></i>
+                                                            <span>m²</span>
+                                                        </p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="property-footer border-top">
+                                                <div class="card-body">
+                                                    <div class="property-footer-meta d-flex align-items-center">
+                                                        <div class="property-year ms-auto">
+                                                            <p class="mb-0">@house.CreatedAt.ToString("d MMM yyyy")</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Ingen lignende tilbud</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-4">
+                    <div class="sidebar-agent-form mb-4 pb-1">
+                        <div class="card">
+                            @if (Users != null)
+                            {
+                                <h4 class="font-20 mt-3 ms-3">@Users.Name</h4>
+                            }
+                            else
+                            {
+                                <p>Loading agent details...</p>
+                            }
+                            <p class="font-20 mt-3 ms-3"> BoligAgent</p>
+                            <div class="card-body p-4 border-bottom pb-2">
+                                @if (Users != null)
+                                {
+                                    <div class="agent-contact-detail-sidebar">
+                                        <p><i class="fas fa-phone-square-alt me-3 text-orange"></i>@Users.Phone</p>
+                                    </div>
+                                    <div class="agent-contact-detail-sidebar">
+                                        <p><i class="fas fa-envelope me-3 text-orange"></i>@Users.Email</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="footer-about">
+                        <h3 class="font-18 text-white">Om hjemmesiden</h3>
+                        <h3 class="font-18 text-white">Find dit drømmehjem med os – Din pålidelige ejendomspartner</h3>
+                        </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
+                    <h3 class="font-18 text-white">Kontakt os</h3>
+                    <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i> H.C. Andersens Vej 9, 8800 </p>
+                    <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+45 8950 3300</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+45 8950 3300</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>mercantec@mercantec.dk</p>
+                </div>
+                <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
+                    <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
+                        <li class="list-inline-item">
+                            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat font-22"></i></a>
+                        </li>
+
+                        <li class="list-inline-item">
+                            <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube font-22"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="footer-bottom row">
+                <div class="col-md-4 col-lg-6">
+                    <p>© 2024. Alle rettigheder forbeholdes.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+@code {
+    private Property Property;
+    private IEnumerable<Property> Properties;
+    private List<Pictures> dbPictures;
+    private User Users;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load data on first page load
+        await LoadDataAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // Called when the Id parameter changes
+        await LoadDataAsync();
+    }
+
+    private async Task LoadDataAsync()
+    {
+        try
+        {
+            dbPictures = await BoligService.GetAllPictures();
+            Property = (await BoligService.GetPropertyById(Id)).FirstOrDefault();
+
+            if (Property == null)
+            {
+                Console.WriteLine($"No property found with ID: {Id}");
+                return;
+            }
+
+            if (Property?.OwnerId != null)
+            {
+                Users = (await BoligService.GetUsers()).FirstOrDefault(i => i.Id == Property.OwnerId);
+            }
+            else
+            {
+                Console.WriteLine("OwnerId is null or invalid");
+            }
+
+            Property.Pictures = dbPictures.Where(i => i.PropertyId == Id);
+            Properties = await BoligService.GetAllPropeties();
+
+            foreach (var item in Properties)
+            {
+                item.Pictures = dbPictures.Where(i => i.PropertyId == item.Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading data: {ex.Message}");
+        }
+    }
+}
+
