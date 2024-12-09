@@ -1,167 +1,211 @@
-﻿ @page "/create"
+﻿@page "/create"
+@inject IBoligService BoligService
+
+@using Domain.Models.Models
+@using Microsoft.Extensions.Logging
 
 <div class="main-wrapper">
-    <!-- Banner Section Start -->
-    <section class="inner-page-breadcrumb">
+    <div class="alert alert-success alert-dismissible fade show" role="alert"
+         style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050;"
+         hidden="@(!isSuccessMessageVisible)">
+        Din "bolig er uploadet"
+        <button type="button" class="btn-close" aria-label="Close" @onclick="() => isSuccessMessageVisible = false"></button>
+    </div>
+
+    <section class="page-login-section pb-5" style="background-color: #404040">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="breadcrumb-content position-relative">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-white">Home</a></li>
-                            <li class="breadcrumb-item active text-white" aria-current="page">Create Annonce</li>
-                        </ul>
-                        <h1 class="breadcrumb-title text-white">Create</h1>
-                    </div>
+            <h1 class="text-center" style="color: ghostwhite">Fill out the form</h1>
+            
+            <EditForm Model="@properties" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <InputText id="title" class="form-control" @bind-Value="properties.Title" required />
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label for="year" class="form-label">Year Built</label>
+                    <InputNumber id="year" class="form-control" @bind-Value="properties.Year" required Max="2024" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <InputNumber id="price" class="form-control" @bind-Value="properties.Price" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="squareMeters" class="form-label">Square Meters</label>
+                    <InputNumber id="squareMeters" class="form-control" @bind-Value="properties.SquareMeters" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <InputText id="location" class="form-control" @bind-Value="properties.Location" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <InputTextArea id="description" class="form-control" @bind-Value="properties.Description" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="ownerId" class="form-label">Owner ID</label>
+                    <InputNumber id="ownerId" class="form-control" @bind-Value="properties.OwnerId" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="typeId" class="form-label">Type ID</label>
+                    <InputNumber id="typeId" class="form-control" @bind-Value="properties.TypeId" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="hasGarden" class="form-label">Has Garden</label>
+                    <InputCheckbox id="hasGarden" class="form-check-input" @bind-Value="properties.HasGarden" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="numberOfFloors" class="form-label">Number of Floors</label>
+                    <InputNumber id="numberOfFloors" class="form-control" @bind-Value="properties.NumberOfFloors" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="hasGarage" class="form-label">Has Garage</label>
+                    <InputCheckbox id="hasGarage" class="form-check-input" @bind-Value="properties.HasGarage" />
+                </div>
+
+                <h2 style="color: lightgray">Lejlighed specific</h2>
+
+                <div class="mb-3">
+                    <label for="floor" class="form-label">What floor on</label>
+                    <InputNumber id="floor" class="form-control" @bind-Value="properties.Floor" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="roomsCount" class="form-label">Rooms</label>
+                    <InputNumber id="roomsCount" class="form-control" @bind-Value="properties.RoomsCount" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="hasBalcony" class="form-label">Balcony</label>
+                    <InputCheckbox id="hasBalcony" class="form-check-input" @bind-Value="properties.HasBalcony" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="hasElevator" class="form-label">Elevator</label>
+                    <InputCheckbox id="hasElevator" class="form-check-input" @bind-Value="properties.HasElevator" />
+                </div>
+
+                <h1>Summerhus specific</h1>
+
+                <div class="mb-3">
+                    <label for="isSeasonal" class="form-label">Seasonal</label>
+                    <InputCheckbox id="isSeasonal" class="form-check-input" @bind-Value="properties.IsSeasonal" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="distanceToBeach" class="form-label">km/meters to Beach</label>
+                    <InputNumber id="distanceToBeach" class="form-control" @bind-Value="properties.DistanceToBeach" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="hasPrivatePool" class="form-label">Private Pool</label>
+                    <InputCheckbox id="hasPrivatePool" class="form-check-input" @bind-Value="properties.HasPrivatePool" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="newPictureLink" class="form-label">Picture Link</label>
+                    <InputText id="newPictureLink" class="form-control" @bind-Value="newPictureLink" />
+                    <button type="button" class="btn btn-secondary mt-2" @onclick="AddPicture">Add Picture</button>
+                </div>
+
+                <h5 class="mt-4" style="color: ghostwhite">Added Pictures:</h5>
+                <ul>
+                    @if (pictures.Any())
+                    {
+                        foreach (var picture in pictures)
+                        {
+                            <li>
+                                @picture.PictureLink
+                                <button class="btn btn-danger btn-sm" @onclick="() => RemovePicture(picture)">Remove</button>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li style="color: white;">No pictures added yet.</li>
+                    }
+                </ul>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </EditForm>
         </div>
     </section>
-    <!-- Banner Section End -->
-
-    <section class="page-login-section pb-5">
-        <div class="container">
-            <h1 class="text-center">Fill out the form</h1>
-
-
-
-        </div>
-    </section>
-
-
-    <!-- Footer -->
-    <footer id="footer" class="footer-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <div class="footer-about">
-                        <h3 class="font-18 text-white">About Site</h3>
-                        <p class="mt-4 pt-2 pe-4">Real Homes is a premium WordPress theme for real estate where modern aesthetics are combined with tasteful simplicity.</p>
-                        <a href="#" class="text-body text-decoration-none">Read More <i class="fas fa-chevron-right ms-2"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
-                    <h3 class="font-18 text-white">Contact Us</h3>
-                    <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i>4417 Langtown Road, Davenport, Iowa</p>
-                    <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+123-456-789</p>
-                    <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+123-456-789</p>
-                    <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>sales@example.com</p>
-                </div>
-                <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
-                    <h3 class="font-18 text-white">Remain Updated</h3>
-                    <form class="nl-form mt-4 pt-2">
-                        <input type="email" class="form-control" id="email">
-                        <button type="submit" class="btn btn-warning py-2 px-4 mt-3">Submit</button>
-                    </form>
-                    <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
-                        <li class="list-inline-item">
-                            <a href="#"><i class="fab fa-facebook-f font-22"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#"><i class="fab fa-instagram font-22"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#"><i class="fab fa-twitter font-22"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#"><i class="fab fa-youtube font-22"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom row">
-                <div class="col-md-4 col-lg-6">
-                    <p>© 2023. All rights reserved.</p>
-                </div>
-                <div class="col-md-8 col-lg-6 text-md-end">
-                    <ul class="list-inline footer-link">
-                        <li class="list-inline-item">
-                            <a href="#" class="text-decoration-none">Contact Us</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="text-decoration-none">FAQ</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="text-decoration-none">Privacy</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="text-decoration-none">Terms & Conditions</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
 </div>
-<!-- Required JS -->
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="libs/fontawesome/js/all.js"></script>
-<script src="js/isotope.pkgd.min.js"></script>
-<script src="js/custom.js"></script>
 
-<script>
 
-    var TxtType = function (el, toRotate, period) {
-        this.toRotate = toRotate;
-        this.el = el;
-        this.loopNum = 0;
-        this.period = parseInt(period, 10) || 2000;
-        this.txt = '';
-        this.tick();
-        this.isDeleting = false;
-    };
 
-    TxtType.prototype.tick = function () {
-        var i = this.loopNum % this.toRotate.length;
-        var fullTxt = this.toRotate[i];
 
-        if (this.isDeleting) {
-            this.txt = fullTxt.substring(0, this.txt.length - 1);
-        } else {
-            this.txt = fullTxt.substring(0, this.txt.length + 1);
+@code {
+    
+    // Create a new Property object to hold the form data
+    private Property properties = new Property();
+   
+    // Create a new Picture object to hold the picture link
+    private string newPictureLink;
+
+    // Create a list to hold the pictures
+    private List<Pictures> pictures = new List<Pictures>();
+    
+    // Create a boolean to show/hide the success message
+    private bool isSuccessMessageVisible = false;
+  
+    // Create a method to add a picture to the list
+    private void AddPicture()
+
+    {
+        // Check if the input is not empty  
+        if (!string.IsNullOrEmpty(newPictureLink))
+        {
+            // Add the picture to the list
+            pictures.Add(new Pictures { PictureLink = newPictureLink });
+            // Clear the input after adding
+            newPictureLink = string.Empty;
         }
+    }
 
-        this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
 
-        var that = this;
-        var delta = 200 - Math.random() * 100;
 
-        if (this.isDeleting) { delta /= 2; }
+    // Create a method to remove a picture from the list
+    private void RemovePicture(Pictures picture)
+    {
+        // Remove the picture from the list
+        pictures.Remove(picture);
+    }
 
-        if (!this.isDeleting && this.txt === fullTxt) {
-            delta = this.period;
-            this.isDeleting = true;
-        } else if (this.isDeleting && this.txt === '') {
-            this.isDeleting = false;
-            this.loopNum++;
-            delta = 500;
+
+
+
+    // Create a method to handle the form submission
+    private async Task HandleValidSubmit()
+    {
+        // Try to create the property with the pictures
+        try
+        {
+            // Set the pictures to the property
+            properties.Pictures = pictures; 
+
+            // Call the CreateAnnonceWithPicturesAsync method from the BoligService
+            var propertyId = await BoligService.CreateAnnonceWithPicturesAsync(properties, pictures.Select(p => p.PictureLink).ToList());
+            // Clear the form
+            isSuccessMessageVisible = true;
         }
-
-        setTimeout(function () {
-            that.tick();
-        }, delta);
-    };
-
-    window.onload = function () {
-
-        var elements = document.getElementsByClassName('typewrite');
-        for (var i = 0; i < elements.length; i++) {
-            var toRotate = elements[i].getAttribute('data-type');
-            var period = elements[i].getAttribute('data-period');
-            if (toRotate) {
-                new TxtType(elements[i], JSON.parse(toRotate), period);
-            }
+        // Catch any errors
+        catch (Exception ex)
+        {
+            // Log the error
+            Console.WriteLine($"Error creating property: {ex.Message}");
         }
-
-        // INJECT CSS
-
-        var css = document.createElement("style");
-        css.type = "text/css";
-        css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
-        document.body.appendChild(css);
-
-    };
-</script>
+    }
+}

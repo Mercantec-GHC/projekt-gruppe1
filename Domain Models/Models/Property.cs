@@ -2,6 +2,7 @@
 
 namespace Domain.Models.Models
 {
+    // Base class for all property types
     public class Property
     {
         public int Id { get; set; }

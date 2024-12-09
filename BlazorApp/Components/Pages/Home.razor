@@ -208,8 +208,10 @@
 
 			dbPictures = await BoligService.GetAllPictures();
 
+			// Associate pictures with the houses
 			foreach (var property in Properties)
 			{
+				// Filter pictures by property ID
 				property.Pictures = dbPictures.Where(p => p.PropertyId == property.Id);
 			}
 		}
