@@ -317,7 +317,7 @@
         try
         {
             properties.Pictures = pictures;
-
+            properties.CreatedAt = DateTime.Now;
             // Call the CreateAnnonceWithPicturesAsync method from the BoligService
             var propertyId = await BoligService.CreateAnnonceWithPicturesAsync(properties, pictures.Select(p => p.PictureLink).ToList());
             // Clear the form

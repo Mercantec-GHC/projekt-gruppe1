@@ -25,8 +25,8 @@ namespace Domain.Models.Models
         public int DistanceToBeach { get; set; } 
         public bool HasPrivatePool { get; set; }
         public List<Pictures> Pictures { get; set; } = new List<Pictures>();
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public string TypeName => ((PropertyType)TypeId).ToString();
     }
 }

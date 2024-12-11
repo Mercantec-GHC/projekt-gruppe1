@@ -230,6 +230,7 @@
 
     private async Task HandleSubmit()
     {
+        Property.UpdatedAt = DateTime.Now;
         await BoligService.UpdatePropertyAsync(Id, Property);
         NavigationManager.NavigateTo($"{Property.Id}");
     }

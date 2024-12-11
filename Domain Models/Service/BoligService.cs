@@ -71,8 +71,8 @@ namespace Domain.Models.Service
         public async Task<int> CreateAnnonceWithPicturesAsync(Property property, List<string> pictureLinks)
         {
             // Query to insert a property
-            const string insertPropertyQuery = @"INSERT INTO Properties (Title, Year, Price, SquareMeters, Location, Description, OwnerId, TypeId, CreatedAt, UpdatedAt, HasGarden, NumberOfFloors, HasGarage, Floor, RoomsCount, HasBalcony, HasElevator, IsSeasonal, DistanceToBeach, HasPrivatePool) 
-                VALUES (@Title, @Year, @Price, @SquareMeters, @Location, @Description, @OwnerId, @TypeId, @CreatedAt, @UpdatedAt, @HasGarden, @NumberOfFloors, @HasGarage, @Floor, @RoomsCount, @HasBalcony, @HasElevator, @IsSeasonal, @DistanceToBeach, @HasPrivatePool) 
+            const string insertPropertyQuery = @"INSERT INTO Properties (Title, Year, Price, SquareMeters, Location, Description, OwnerId, TypeId, CreatedAt, HasGarden, NumberOfFloors, HasGarage, Floor, RoomsCount, HasBalcony, HasElevator, IsSeasonal, DistanceToBeach, HasPrivatePool) 
+                VALUES (@Title, @Year, @Price, @SquareMeters, @Location, @Description, @OwnerId, @TypeId, @CreatedAt,  @HasGarden, @NumberOfFloors, @HasGarage, @Floor, @RoomsCount, @HasBalcony, @HasElevator, @IsSeasonal, @DistanceToBeach, @HasPrivatePool) 
                 RETURNING Id";
 
             try 
@@ -145,8 +145,6 @@ namespace Domain.Models.Service
                     ""squaremeters"" = @SquareMeters,
                     ""location"" = @Location, 
                     ""description"" = @Description, 
-                    ""ownerid"" = @OwnerId, 
-                    ""typeid"" = @TypeId, 
                     ""hasgarden"" = @HasGarden, 
                     ""numberoffloors"" = @NumberOfFloors, 
                     ""hasgarage"" = @HasGarage,
