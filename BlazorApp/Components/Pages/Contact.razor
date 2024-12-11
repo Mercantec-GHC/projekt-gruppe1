@@ -1,0 +1,154 @@
+﻿@page "/contact"
+<div class="main-wrapper">
+    <!-- Banner Section Start -->
+    <section class="inner-page-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-content position-relative">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-white">Home</a></li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">Kontakt</li>
+                        </ul>
+                        <h1 class="breadcrumb-title text-white">Kontakt os</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Banner Section End -->
+
+    <div class="main-content-wrapper">
+
+        <section class="contact-form-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 d-flex">
+                        <div class="card border-0 w-100">
+                            <div class="card-body p-4">
+                                <h5>Hej, skal du spørge?</h5>
+                                <p>Send det til os, så vender vi tilbage til dig hurtigst muligt.</p>
+                                <form class="contact-form" id="contact-form" name="contact-form" action="https://formspree.io/f/xvgonvkv" method="POST" novalidate="novalidate">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <input id="form-name" name="name" class="form-control" required="required" type="text" placeholder="Navn">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <input id="form-email" name="email" class="form-control required email" required="required" type="email" placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <input id="form-phone" name="phone" class="form-control required phone" required="required" placeholder="Telefonnummer">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <input id="form-subject" name="subject" class="form-control required" required="required" type="text" placeholder="Emne">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <textarea id="form-message" name="message" class="form-control required" rows="8" required="required" placeholder="Din besked"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-warning">Send besked</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 d-flex">
+                        <div class="card border-0 w-100 mt-5 mt-lg-0">
+                            <div class="card-body p-4">
+                                <h5>Kontakt os</h5>
+                                
+                                <div class="contact-item">
+                                    <ul class="social-icons ps-0">
+                                        <li class="list-inline-item"><a href="https://www.facebook.com"><i class="fab fa-facebook-square"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://www.snapchat.com"><i class="fab fab fa-snapchat"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://www.youtube.com"><i class="fab fa-youtube"></i></a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="contact-item">
+                                    <h5 class="font-18">Address</h5>
+                                    <p>H.C. Andersens Vej 9, 8800 </p>
+                                </div>
+
+                                <div class="contact-item">
+                                    <h5 class="font-18">Telefonnummer</h5>
+                                    <p>+45 8950 3300</p>
+                                </div>
+
+                                <div class="contact-item">
+                                    <h5 class="font-18">Mail</h5>
+                                    <p>mercantec@mercantec.dk</p>
+                                </div>
+
+                                <div class="contact-item">
+                                    <h5 class="font-18">Hjemmesiden</h5>
+                                    <p>mercantec.dk</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" class="footer-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="footer-about">
+                            <h3 class="font-18 text-white">Om hjemmesiden</h3>
+                            <h3 class="font-18 text-white">Find dit drømmehjem med os – Din pålidelige ejendomspartner</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
+                        <h3 class="font-18 text-white">Kontakt os</h3>
+                        <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i> H.C. Andersens Vej 9, 8800 </p>
+                        <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+45 8950 3300</p>
+                        <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+45 8950 3300</p>
+                        <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>mercantec@mercantec.dk</p>
+                    </div>
+                    <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
+                        <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
+                            <li class="list-inline-item">
+                                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f font-22"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram font-22"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat font-22"></i></a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube font-22"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="footer-bottom row">
+                    <div class="col-md-4 col-lg-6">
+                        <p>© 2024. Alle rettigheder forbeholdes.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+
