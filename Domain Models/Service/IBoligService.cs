@@ -10,5 +10,7 @@ namespace Domain.Models.Service
 		Task<IEnumerable<Property>> GetPropertyById(int id);
         Task<List<User>> GetUsers();
         Task<int> CreateAnnonceWithPicturesAsync(Property property, List<string> pictureLinks);
+        Task DeleteProperty(int id);
+        Task UpdatePropertyAsync(int id, Property property);
     }
 }

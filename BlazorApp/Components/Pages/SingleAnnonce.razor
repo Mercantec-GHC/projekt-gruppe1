@@ -8,8 +8,8 @@
                 <div class="col-md-6">
                     <div class="breadcrumb-content position-relative">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-white">Home</a></li>
-                            <li class="breadcrumb-item active text-white" aria-current="page">Detalje</li>
+                            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-white">Home</a></li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">@Property?.TypeName</li>
                         </ul>
                         <h1 class="breadcrumb-title text-white">@Property?.Title</h1>
                     </div>
@@ -23,7 +23,7 @@
                 <div class="col-lg-7">
                     <div class="d-md-flex align-items-baseline property-title">
                         <div class="property-title">
-                            <h1 class="font-30">@Property?.Title</h1>
+                            <h1 class="font-30">@Property?.Price dkk</h1>
                         </div>
 
                         <div class="property-tag ms-md-auto ms-lg-3">
@@ -35,8 +35,13 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="d-md-flex align-items-center property-amnt">
-                        <h2 class="font-30">@Property?.Price/<span>dkk</span></h2>
                         <ul class="list-inline mt-3 mt-md-0 mb-0 ms-md-auto property-options">
+                            <li class="list-inline-item">
+                                <button class="btn btn-primary mt-2" @onclick="UpdateProperty">Update</button>
+                            </li>
+                            <li class="list-inline-item">
+                                <button class="btn btn-danger mt-2" @onclick="DeleteProperty">Delete</button>
+                            </li>
                             <li class="list-inline-item">
                                 <a href="javascript:void(0)" onclick="window.print()"><i class="fas fa-print"></i></a>
                             </li>
@@ -47,28 +52,30 @@
         </div>
     </section>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mb-4">
-                <div class="d-flex flex-wrap gap-3">
-                    @if (Property != null && Property.Pictures != null && Property.Pictures.Any())
+    <div class="related-property-section mb-5">
+        <div class="related-property">
+            <div class="row">
+                @if (Property != null && Property.Pictures != null && Property.Pictures.Any())
+                {
+                    @foreach (var image in Property.Pictures)
                     {
-                        @foreach (var image in Property.Pictures)
-                        {
-                            <div class="property-item">
-                                <img src="@image.PictureLink" alt="Image" class="img-fluid w-100 fe-pro-img" />
+                        <div class="col-md-6">
+                            <div class="card new-related-property-card mb-4">
+                                <div class="new-related-property-img position-relative">
+                                    <img src="@image.PictureLink" alt="featured-property" class="img-fluid w-100 new-related-pro-img" />
+                                </div>
                             </div>
-                        }
+                        </div>
                     }
-                    else
-                    {
-                        <p>No images available.</p>
-                    }
-                </div>
+                }
+                else
+                {
+                    <p>No images available.</p>
+                }
             </div>
         </div>
     </div>
- 
+
     <section class="property-details-section">
         <div class="container">
             <div class="row">
@@ -89,80 +96,69 @@
                                     <div class="col-lg-6 col-md-6 col-6 mb-2">Bolig :</div>
                                     <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">Til sælg</div>
 
-                                    <div class="col-lg-6 col-md-6 col-6 mb-2">Bolig storelse :</div>
-                                    <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.SquareMeters m2 </div>
-
                                     <div class="col-lg-6 col-md-6 col-6 mb-2">Byggeår :</div>
                                     <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.Year</div>
 
-                                    @if (Property != null && Property.NumberOfFloors > 0)
+                                    <div class="col-lg-6 col-md-6 col-6 mb-2">Bolig storelse :</div>
+                                    <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.SquareMeters m2 </div>
+
+                                    @if (Property != null && Property.TypeId == PropertyType.Lejlighed)
+                                    {
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Etage :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @Property.Floor
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Antal værelser :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property.RoomsCount</div>
+
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Balcony :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.HasBalcony ? "Ja" : "Nej")
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Elevator :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.HasElevator ? "Ja" : "Nej")
+                                        </div>
+                                    }   
+
+                                    @if (Property != null && Property.TypeId == PropertyType.Hus)
                                     {
                                         <div class="col-lg-6 col-md-6 col-6 mb-2">Antal etager :</div>
                                         <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.NumberOfFloors</div>
 
-                                    }
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Haven :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.HasGarden ? "Ja" : "Nej")
+                                        </div>
 
-                                    @if (Property != null && Property.HasGarage == true)
-                                    {
                                         <div class="col-lg-6 col-md-6 col-6 mb-2">Garage :</div>
                                         <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
                                             @(Property.HasGarage ? "Ja" : "Nej")
                                         </div>
                                     }
 
-                                    @if (Property != null && Property.HasGarden == true)
-                                    {
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Haven :</div>
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
-                                            @(Property.HasGarden ? "Ja" : "Nej")
-                                        </div>
-                                    }
-
-                                    @if (Property != null)
-                                    {
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Antal værelser :</div>
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property.RoomsCount</div>
-                                    }
-
-                                    @if (Property != null && Property.Floor > 0)
-                                    {
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Etage :</div>
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
-                                            @Property.Floor
-                                        </div>
-                                    }
-
-                                    @if (Property != null)
-                                    {
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Elevator :</div>
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
-                                            @(Property.HasElevator ? "Ja" : "Nej")
-                                        </div>
-                                    }
-
-                                    @if (Property != null && Property.IsSeasonal == true)
-                                    {
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Seasonal :</div>
-                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
-                                            @(Property.IsSeasonal ? "Ja" : "Nej")
-                                        </div>
-                                    }
-
-                                    @if (Property != null && Property.DistanceToBeach > 0)
+                                    @if (Property != null && Property.TypeId == PropertyType.Sommerhus)
                                     {
                                         <div class="col-lg-6 col-md-6 col-6 mb-2">Afstand til strand :</div>
                                         <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
                                             @Property.DistanceToBeach
                                         </div>
-                                    }
 
-                                    @if (Property != null && Property.HasPrivatePool == true)
-                                    {
+
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2">Seasonal :</div>
+                                        <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
+                                            @(Property.IsSeasonal ? "Ja" : "Nej")
+                                        </div>
+
                                         <div class="col-lg-6 col-md-6 col-6 mb-2">Pool :</div>
                                         <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
                                             @(Property.HasPrivatePool ? "Ja" : "Nej")
                                         </div>
                                     }
+
+
                                 </div>
                             </div>
                         </div>
@@ -319,7 +315,7 @@
     private IEnumerable<Property> Properties;
     private List<Pictures> dbPictures;
     private User Users;
-
+    [Inject] private NavigationManager NavigationManager { get; set; }
     [Parameter]
     public int Id { get; set; }
 
@@ -357,17 +353,34 @@
                 Console.WriteLine("OwnerId is null or invalid");
             }
 
-            Property.Pictures = dbPictures.Where(i => i.PropertyId == Id);
+            Property.Pictures = (dbPictures.Where(i => i.PropertyId == Id)).ToList();
             Properties = BoligService.GetAllPropeties();
 
             foreach (var item in Properties)
             {
-                item.Pictures = dbPictures.Where(i => i.PropertyId == item.Id);
+                item.Pictures = (dbPictures.Where(i => i.PropertyId == item.Id)).ToList();
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading data: {ex.Message}");
+        }
+    }
+    private async Task DeleteProperty()
+    {
+
+        if (Property != null)
+        {
+            await BoligService.DeleteProperty(Property.Id);
+            NavigationManager.NavigateTo("/");
+        }
+    }
+    private void  UpdateProperty()
+    {
+
+        if (Property != null)
+        {
+            NavigationManager.NavigateTo($"/create/{Id}");
         }
     }
 }

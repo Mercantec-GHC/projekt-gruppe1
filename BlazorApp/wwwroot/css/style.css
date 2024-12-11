@@ -194,6 +194,7 @@ p {
 	color: #fff;
 	border-color: #e33324;
 }
+w
 .btn-outline-warning {
     color: #e33324;
     border-color: #e33324;
@@ -839,6 +840,34 @@ p {
 }
 
 /*Become agent style*/
+.new-related-property-card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.new-related-property-img {
+    height: 500px;
+    overflow: hidden;
+}
+
+.new-related-pro-img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.picture-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.picture-item img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
 .become-agent-section{
 	background-color: #3d405b;
 	padding: 100px 0 100px;

@@ -74,9 +74,16 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="typeId" class="form-label">Type ID</label>
-                            <InputNumber id="typeId" class="form-control" @bind-Value="properties.TypeId" required />
+                            <label for="typeId" class="form-label">Type</label>
+                            <select id="typeId" class="form-control" @onchange="OnTypeChanged">
+                                <option value="0" disabled selected hidden>Select Type</option>
+                                <option value="1">Hus</option>
+                                <option value="2">Lejlighed</option>
+                                <option value="3">Sommerhus</option>
+                            </select>
                         </div>
+
+                        <p>Selected Type: @properties.TypeId</p>
 
                         <div class="mb-3">
                             <label for="hasGarden" class="form-label">Has Garden</label>
@@ -137,6 +144,7 @@
                             <button type="button" class="btn btn-secondary mt-2" @onclick="AddPicture">Add Picture</button>
                         </div>
 
+                        <br>
                         <h5 class="mt-4" style="color: ghostwhite">Added Pictures:</h5>
                         <ul>
                             @if (pictures.Any())
@@ -160,8 +168,6 @@
                 </div>
             </section>
         </div>
-
-
 
         <!-- Footer -->
         <footer id="footer" class="footer-section">
@@ -335,5 +341,13 @@
 
         // Reset the new picture link
         newPictureLink = string.Empty;
+    }
+
+    private void OnTypeChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int selectedType))
+        {
+            properties.TypeId = (PropertyType)selectedType;
+        }
     }
 }

@@ -12,9 +12,8 @@ namespace Domain.Models.Models
         public int SquareMeters { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
-        public int OwnerId { get; set; } 
-        public int TypeId { get; set; }
-
+        public int OwnerId { get; set; }
+        public PropertyType TypeId { get; set; } = PropertyType.Unknown;
         public bool HasGarden { get; set; }
         public int NumberOfFloors { get; set; }
         public bool HasGarage { get; set; }
@@ -25,7 +24,7 @@ namespace Domain.Models.Models
         public bool IsSeasonal { get; set; }
         public int DistanceToBeach { get; set; } 
         public bool HasPrivatePool { get; set; }
-        public IEnumerable<Pictures> Pictures { get; set; }
+        public List<Pictures> Pictures { get; set; } = new List<Pictures>();
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
         public string TypeName => ((PropertyType)TypeId).ToString();

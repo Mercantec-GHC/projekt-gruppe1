@@ -32,7 +32,7 @@ namespace Domain.Models.Service
             return pictures.ToList();
         }
 
-        // Asynchronous method to get all properties
+        // Synchronous method to get all properties
         public List<Property> GetAllPropeties()
         {
             using var connection = _dbService.GetConnection();
@@ -106,5 +106,87 @@ namespace Domain.Models.Service
                 throw;
             }
         }
+
+        public async Task DeleteProperty(int propertyId)
+        {
+            using var connection = _dbService.GetConnection();
+            using var transaction = connection.BeginTransaction(); 
+
+            try
+            {
+                var deletePicturesQuery = @"DELETE FROM ""pictures"" WHERE ""propertyid"" = @PropertyId";
+                await connection.ExecuteAsync(deletePicturesQuery, new { PropertyId = propertyId }, transaction);
+
+                var deletePropertyQuery = @"DELETE FROM ""properties"" WHERE ""id"" = @PropertyId";
+                await connection.ExecuteAsync(deletePropertyQuery, new { PropertyId = propertyId }, transaction);
+
+                transaction.Commit(); 
+            }
+            catch
+            {
+                transaction.Rollback(); 
+                throw; 
+            }
+        }
+
+        public async Task UpdatePropertyAsync(int id, Property property)
+        {
+            using var connection = _dbService.GetConnection();
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                var updateQuery = @"
+                UPDATE ""properties""
+                SET 
+                    ""title"" = @Title, 
+                    ""year"" = @Year, 
+                    ""price"" = @Price, 
+                    ""squaremeters"" = @SquareMeters,
+                    ""location"" = @Location, 
+                    ""description"" = @Description, 
+                    ""ownerid"" = @OwnerId, 
+                    ""typeid"" = @TypeId, 
+                    ""hasgarden"" = @HasGarden, 
+                    ""numberoffloors"" = @NumberOfFloors, 
+                    ""hasgarage"" = @HasGarage,
+                    ""floor"" = @Floor,
+                    ""roomscount"" = @RoomsCount,
+                    ""hasbalcony"" = @HasBalcony,
+                    ""haselevator"" = @HasElevator,
+                    ""isseasonal"" = @IsSeasonal,
+                    ""distancetobeach"" = @DistanceToBeach,
+                    ""hasprivatepool"" = @HasPrivatePool,
+                    ""updatedat"" = @UpdatedAt
+                WHERE ""id"" = @Id";
+
+                await connection.ExecuteAsync(updateQuery, property, transaction);
+
+                if (property.Pictures != null)
+                {
+                    var deletePicturesQuery = @"
+                        DELETE FROM ""pictures""
+                        WHERE ""propertyid"" = @PropertyId";
+
+                    await connection.ExecuteAsync(deletePicturesQuery, new { PropertyId = id }, transaction);
+
+                    foreach (var picture in property.Pictures)
+                    {
+                        var insertPictureQuery = @"
+                            INSERT INTO Pictures (PropertyId, PictureLink, CreatedAt) 
+                            VALUES (@PropertyId, @PictureLink, @CreatedAt)";
+
+                        await connection.ExecuteAsync(insertPictureQuery, new { PropertyId = id, PictureLink = picture.PictureLink, CreatedAt = DateTime.UtcNow }, transaction);
+                    }
+                }
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
     }
 }

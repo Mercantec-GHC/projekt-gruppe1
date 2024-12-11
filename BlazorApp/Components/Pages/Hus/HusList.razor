@@ -53,12 +53,12 @@ else
     protected override async Task OnInitializedAsync()
     {
         // type id = 1 - its House
-        houses = (BoligService.GetAllPropeties()).Where(i => i.TypeId == 1);
+        houses = (BoligService.GetAllPropeties()).Where(i => i.TypeId == PropertyType.Hus);
         pictures = await BoligService.GetAllPictures();
 
         foreach (var house in houses)
         {
-            house.Pictures = pictures.Where(p => p.PropertyId == house.Id);
+            house.Pictures = (pictures.Where(p => p.PropertyId == house.Id)).ToList();
         }
     }
 }
