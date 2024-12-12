@@ -1,0 +1,120 @@
+﻿ @page "/login"
+ @inject IBoligService BoligService
+
+<div class="main-wrapper">
+    <!-- Banner Section Start -->
+    <section class="inner-page-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-content position-relative">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-white">Home</a></li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">Login</li>
+                        </ul>
+                        <h1 class="breadcrumb-title text-white">Log ind & Tilmeld dig</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Banner Section End -->
+
+
+    <section class="page-login-section pb-5">
+        <div class="container">
+            <h1 class="text-center">Lad os komme i gang!</h1>
+            <p class="text-center text-dark mb-0 font-averta-bold mt-5"> Log ind med din sociale konto</p>
+            <div class="social-login-btns text-center mt-3 mb-5">
+                <button class="btn bg-blue text-white px-3 py-2 me-md-4"><i class="fab fa-facebook-square me-3"></i> Facebook</button>
+                <button class="btn btn-warning text-white px-3 py-2"><i class="fab fa-google me-3"></i> Google</button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="login-title pt-4 pb-4 font-18">Log ind på din konto</h3>
+
+                    <form class="login-form">
+                        <div class="mb-3">
+                            <input type="email" class="form-control font-14" id="login-uemail" placeholder="Email Address">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control font-14" id="login-upass" placeholder="Adgangskode">
+                        </div>
+                        <div class="mb-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">Remember Me</label>
+                        </div>
+                        <button type="submit" class="btn btn-warning login-btn">Login</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="login-title pt-4 pb-4 font-18">Registrer din account</h3>
+                    <form class="register-form">
+                        <div class="mb-3">
+                            <input type="text" class="form-control font-14" id="reg-uname" placeholder="Fulde Navn">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control font-14" id="reg-uemail" placeholder="Email Address">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" class="form-control font-14" id="reg-tlf" placeholder="Telefonnummer">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control font-14" id="reg-upass" placeholder="Adgangskode">
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" class="form-control font-14" id="reg-uconpass" placeholder="Gentag adgangskode">
+                        </div>
+                        <button type="submit" class="btn btn-warning login-btn">Register</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="footer-about">
+                        <h3 class="font-18 text-white">Om hjemmesiden</h3>
+                        <h3 class="font-18 text-white">Find dit drømmehjem med os – Din pålidelige ejendomspartner</h3>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
+                    <h3 class="font-18 text-white">Kontakt os</h3>
+                    <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i> H.C. Andersens Vej 9, 8800 </p>
+                    <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+45 8950 3300</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+45 8950 3300</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>mercantec@mercantec.dk</p>
+                </div>
+                <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
+                    <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
+                        <li class="list-inline-item">
+                            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat font-22"></i></a>
+                        </li>
+
+                        <li class="list-inline-item">
+                            <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube font-22"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="footer-bottom row">
+                <div class="col-md-4 col-lg-6">
+                    <p>© 2024. Alle rettigheder forbeholdes.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
