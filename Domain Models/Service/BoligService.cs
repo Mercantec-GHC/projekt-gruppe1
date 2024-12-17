@@ -87,8 +87,8 @@ namespace Domain.Models.Service
         {
             using var connection = _dbService.GetConnection();
 
-            var query = @" INSERT INTO Users (Name, Email, Phone, Password)
-                                  VALUES (@Name, @Email, @Phone, @Password)";
+            var query = @"INSERT INTO Users (Name, Email, Phone, Password, CreatedAt)
+                  VALUES (@Name, @Email, @Phone, @Password, @CreatedAt)";
 
             var result = await connection.ExecuteAsync(query, new
             {
@@ -96,10 +96,12 @@ namespace Domain.Models.Service
                 user.Email,
                 user.Phone,
                 user.Password,
+                CreatedAt = DateTime.UtcNow
             });
 
             return result;
         }
+
 
         // New method to create a property with pictures
         public async Task<int> CreateAnnonceWithPicturesAsync(Property property, List<string> pictureLinks)

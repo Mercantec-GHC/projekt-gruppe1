@@ -1,5 +1,6 @@
 ﻿@page "/create/{id:int}"
 @inject IBoligService BoligService
+@inject NavigationManager NavigationManager
 
 <div class="main-wrapper">
     <!-- Banner Section Start -->
@@ -142,57 +143,12 @@
                     </EditForm>
         </section>
     </div>
-
-    <!-- Footer -->
-    <footer id="footer" class="footer-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <div class="footer-about">
-                        <h3 class="font-18 text-white">Om hjemmesiden</h3>
-                        <h3 class="font-18 text-white">Find dit drømmehjem med os – Din pålidelige ejendomspartner</h3>
-                        </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
-                    <h3 class="font-18 text-white">Kontakt os</h3>
-                    <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i> H.C. Andersens Vej 9, 8800 </p>
-                    <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+45 8950 3300</p>
-                    <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+45 8950 3300</p>
-                    <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>mercantec@mercantec.dk</p>
-                </div>
-                <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
-                    <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
-                        <li class="list-inline-item">
-                            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f font-22"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram font-22"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat font-22"></i></a>
-                        </li>
-
-                        <li class="list-inline-item">
-                            <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube font-22"></i></a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-            <div class="footer-bottom row">
-                <div class="col-md-4 col-lg-6">
-                    <p>© 2024. Alle rettigheder forbeholdes.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 
 @code {
     private string newPictureLink;
     private List<Pictures> dbPictures;
     private Property Property = new Property();
-    [Inject] private NavigationManager NavigationManager { get; set; }
 
     [Parameter]
     public int Id { get; set; }
