@@ -13,7 +13,14 @@ namespace Domain.Models.Models
         public string Location { get; set; }
         public string Description { get; set; }
         public int OwnerId { get; set; }
-        public PropertyType TypeId { get; set; } = PropertyType.Unknown;
+        public int TypeId { get; set; } 
+
+        public PropertyType PropertyType
+        {
+            get => (PropertyType)TypeId; 
+            set => TypeId = (int)value; 
+        }
+
         public bool HasGarden { get; set; }
         public int NumberOfFloors { get; set; }
         public bool HasGarage { get; set; }

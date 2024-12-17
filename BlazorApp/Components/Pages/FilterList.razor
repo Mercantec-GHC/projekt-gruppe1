@@ -1,0 +1,55 @@
+﻿@page "/filter/{id:int?}"
+@inject IBoligService BoligService
+<h3>Filter List</h3>
+
+<div style="width:20%; border:1px solid black; margin-right:500px; float:left; position:fixed;">
+    <input />
+    <button>Search</button>
+</div>
+
+@if (propertiesById != null && propertiesById.Any())
+{
+    foreach (var property in propertiesById)
+    {
+        var firstImage = property.Pictures?.FirstOrDefault()?.PictureLink;
+        <a href="@property.Id">
+            <div style="width:80%; height:300px; border:solid 1px black; box-shadow:50px black; margin-top:50px; margin-left:300px; padding:20px;">
+                <div style="width:150px; height:150px; float:left; border:solid 1px black;">
+                    <img src="@firstImage" style="width:150px; height:150px;" alt="Alternate Text" />
+                </div>
+                <div style="padding:25px; margin-left:200px; border: solid 1px black;">
+                    <h4>@property.Title</h4> @property.Price Dkk-, <br />
+                    <section>@property.Description</section>
+                    <section>@property.Location</section>
+                </div>
+            </div>
+        </a>
+    }
+}
+else
+{
+    <p>No properties found.</p>
+}
+
+@code {
+    [Parameter]
+    public int? id { get; set; } 
+    private IEnumerable<Property>? properties = null;
+    private IEnumerable<Property>? propertiesById = null;
+    private List<Pictures>? pictures = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        properties = BoligService.GetAllPropeties();
+        pictures = await BoligService.GetAllPictures();
+
+        foreach (var property in properties)
+        {
+            property.Pictures = pictures?.Where(p => p.PropertyId == property.Id).ToList();
+        }
+
+        propertiesById = id.HasValue
+            ? properties.Where(p => p.TypeId == id.Value)
+            : properties;
+    }
+}

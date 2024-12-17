@@ -28,7 +28,7 @@ public class AuthController : ControllerBase
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, model.Email),
-                new Claim(ClaimTypes.NameIdentifier, userAccount.Id.ToString())
+                new Claim("userId", userAccount.Id.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

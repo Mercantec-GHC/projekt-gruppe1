@@ -67,6 +67,40 @@ namespace Domain.Models.Service
             return users.ToList();
         }
 
+        public async Task<bool> EmailCheckAsync(User user)
+        {
+            using var connection = _dbService.GetConnection();
+
+            var query = @"SELECT *
+                    FROM users 
+                    WHERE email = @Email";
+
+            // Execute the query and check if any user is returned
+            var count = await connection.ExecuteScalarAsync<int>(query, new { Email = user.Email });
+
+            return count > 0; // Returns true if a user is found
+        }
+
+
+
+        public async Task<int> CreateUserAsync(User user)
+        {
+            using var connection = _dbService.GetConnection();
+
+            var query = @" INSERT INTO Users (Name, Email, Phone, Password)
+                                  VALUES (@Name, @Email, @Phone, @Password)";
+
+            var result = await connection.ExecuteAsync(query, new
+            {
+                user.Name,
+                user.Email,
+                user.Phone,
+                user.Password,
+            });
+
+            return result;
+        }
+
         // New method to create a property with pictures
         public async Task<int> CreateAnnonceWithPicturesAsync(Property property, List<string> pictureLinks)
         {

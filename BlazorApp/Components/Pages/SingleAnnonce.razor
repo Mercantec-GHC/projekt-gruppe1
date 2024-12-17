@@ -33,25 +33,34 @@
                         </div>
                     </div>
                 </div>
+
                 <AuthorizeView>
                     <Authorized>
-                        <div class="col-lg-5">
-                            <div class="d-md-flex align-items-center property-amnt">
-                                <ul class="list-inline mt-3 mt-md-0 mb-0 ms-md-auto property-options">
-                                    <li class="list-inline-item">
-                                        <button class="btn btn-primary mt-2" @onclick="UpdateProperty">Update</button>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <button class="btn btn-danger mt-2" @onclick="DeleteProperty">Delete</button>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="javascript:void(0)" onclick="window.print()"><i class="fas fa-print"></i></a>
-                                    </li>
-                                </ul>
+                        @if (Property != null && Property.OwnerId.ToString() == CurrentUserId)
+                        {
+                            <div class="col-lg-5">
+                                <div class="d-md-flex align-items-center property-amnt">
+                                    <ul class="list-inline mt-3 mt-md-0 mb-0 ms-md-auto property-options">
+                                        <li class="list-inline-item">
+                                            <button class="btn btn-primary mt-2" @onclick="UpdateProperty">Update</button>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <button class="btn btn-danger mt-2" @onclick="DeleteProperty">Delete</button>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript:void(0)" onclick="window.print()"><i class="fas fa-print"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <p class="text-danger">Du har ikke tilladelse til at redigere denne annonce.</p>
+                        }
                     </Authorized>
                 </AuthorizeView>
+
             </div>
         </div>
     </section>
@@ -106,7 +115,7 @@
                                     <div class="col-lg-6 col-md-6 col-6 mb-2">Bolig storelse :</div>
                                     <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.SquareMeters m2 </div>
 
-                                    @if (Property != null && Property.TypeId == PropertyType.Lejlighed)
+                                    @if (Property != null && Property.PropertyType == PropertyType.Lejlighed)
                                     {
                                         <div class="col-lg-6 col-md-6 col-6 mb-2">Etage :</div>
                                         <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
@@ -127,7 +136,7 @@
                                         </div>
                                     }   
 
-                                    @if (Property != null && Property.TypeId == PropertyType.Hus)
+                                    @if (Property != null && Property.PropertyType == PropertyType.Hus)
                                     {
                                         <div class="col-lg-6 col-md-6 col-6 mb-2">Antal etager :</div>
                                         <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">@Property?.NumberOfFloors</div>
@@ -143,7 +152,7 @@
                                         </div>
                                     }
 
-                                    @if (Property != null && Property.TypeId == PropertyType.Sommerhus)
+                                    @if (Property != null && Property.PropertyType == PropertyType.Sommerhus)
                                     {
                                         <div class="col-lg-6 col-md-6 col-6 mb-2">Afstand til strand :</div>
                                         <div class="col-lg-6 col-md-6 col-6 mb-2 text-alter font-averta-bold">
@@ -320,13 +329,23 @@
     private List<Pictures> dbPictures;
     private User Users;
     [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     [Parameter]
     public int Id { get; set; }
+    private string CurrentUserId;
 
     protected override async Task OnInitializedAsync()
     {
-        // Load data on first page load
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity != null && user.Identity.IsAuthenticated)
+        {
+            CurrentUserId = user.FindFirst(c => c.Type == "userId")?.Value;
+        }
+
         await LoadDataAsync();
+        // Load data on first page load
     }
 
     protected override async Task OnParametersSetAsync()

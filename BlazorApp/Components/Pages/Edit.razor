@@ -53,7 +53,7 @@
                                                     <InputTextArea id="description" class="form-control" @bind-Value="Property.Description" />
                                                 </div>
 
-                                                @if (Property.TypeId == PropertyType.Lejlighed)
+                                                @if (Property.PropertyType == PropertyType.Lejlighed)
                                                 {
                                                     <div class="mb-3">
                                                         <label for="floor" class="form-label">Etage :</label>
@@ -76,7 +76,7 @@
                                                     </div>
                                                 }
 
-                                                @if (Property.TypeId == PropertyType.Hus)
+                                                @if (Property.PropertyType == PropertyType.Hus)
                                                 {
                                                     <div class="mb-3">
                                                         <label for="numberOfFloors" class="form-label">Number of Floors</label>
@@ -92,7 +92,7 @@
                                                     </div>
                                                 }
 
-                                                @if (Property.TypeId == PropertyType.Sommerhus)
+                                                @if (Property.PropertyType == PropertyType.Sommerhus)
                                                 {
                                                     <div class="mb-3">
                                                         <label for="distanceToBeach" class="form-label">km/meters to Beach</label>

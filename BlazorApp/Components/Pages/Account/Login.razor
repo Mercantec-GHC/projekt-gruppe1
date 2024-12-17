@@ -1,5 +1,4 @@
 ﻿@page "/login"
-@using System.Net
 @inject IBoligService BoligService
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient;
@@ -29,23 +28,23 @@
             <div class="row">
                 <div class="col-md-6">
                     <h3 class="login-title pt-4 pb-4 font-18">Log ind på din konto</h3>
-                    <EditForm Model="@User" OnValidSubmit="Authenticate" FormName="loginForm">
+                    <EditForm Model="@LoginUser" OnValidSubmit="Authenticate" FormName="loginForm">
                         <DataAnnotationsValidator />
                         <div class="mb-3">
                             <InputText type="email"
                                        class="form-control font-14"
                                        id="login-uemail"
                                        placeholder="Email Address"
-                                       @bind-Value="User.Email" />
-                            <ValidationMessage For="() => User.Email" />
+                                       @bind-Value="LoginUser.Email" />
+                            <ValidationMessage For="() => LoginUser.Email" />
                         </div>
                         <div class="mb-3">
                             <InputText type="password"
                                        class="form-control font-14"
                                        id="login-upass"
                                        placeholder="Adgangskode"
-                                       @bind-Value="User.Password" />
-                            <ValidationMessage For="() => User.Password" />
+                                       @bind-Value="LoginUser.Password" />
+                            <ValidationMessage For="() => LoginUser.Password" />
                         </div>
 
                         <div class="mb-3">
@@ -59,83 +58,71 @@
 
                 <div class="col-md-6">
                     <h3 class="login-title pt-4 pb-4 font-18">Registrer din account</h3>
-                    <form class="register-form">
+                    <EditForm Model="@RegisterUser" OnValidSubmit="HandleRegistration">
+                        <DataAnnotationsValidator />
                         <div class="mb-3">
-                            <input type="text" class="form-control font-14" id="reg-uname" placeholder="Fulde Navn">
+                            <InputText type="text"
+                                       class="form-control font-14"
+                                       id="reg-uname"
+                                       placeholder="Fulde Navn"
+                                       @bind-Value="RegisterUser.Name" />
+                            <ValidationMessage For="() => RegisterUser.Name" />
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control font-14" id="reg-uemail" placeholder="Email Address">
+                            <InputText type="email"
+                                       class="form-control font-14"
+                                       id="reg-uemail"
+                                       placeholder="Email Address"
+                                       @bind-Value="RegisterUser.Email" />
+                            <ValidationMessage For="() => RegisterUser.Email" />
                         </div>
                         <div class="mb-3">
-                            <input type="number" class="form-control font-14" id="reg-tlf" placeholder="Telefonnummer">
+                            <InputText type="number"
+                                       class="form-control font-14"
+                                       id="reg-tlf"
+                                       placeholder="Telefonnummer"
+                                       @bind-Value="RegisterUser.Phone" />
+                            <ValidationMessage For="() => RegisterUser.Phone" />
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control font-14" id="reg-upass" placeholder="Adgangskode">
+                            <InputText type="password"
+                                       class="form-control font-14"
+                                       id="reg-upass"
+                                       placeholder="Adgangskode"
+                                       @bind-Value="RegisterUser.Password" />
+                            <ValidationMessage For="() => RegisterUser.Password" />
                         </div>
                         <div class="mb-4">
-                            <input type="password" class="form-control font-14" id="reg-uconpass" placeholder="Gentag adgangskode">
+                            <InputText type="password"
+                                       class="form-control font-14"
+                                       id="reg-uconpass"
+                                       placeholder="Gentag adgangskode"
+                                       @bind-Value="ConfirmPassword" />
+                            <ValidationMessage For="() => ConfirmPassword" />
+                        </div>
+                        <div class="mb-3">
+                            <span class="text-danger">@registrationErrorMessage</span>
                         </div>
                         <button type="submit" class="btn btn-warning login-btn">Register</button>
-                    </form>
+                    </EditForm>
                 </div>
             </div>
 
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer id="footer" class="footer-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <div class="footer-about">
-                        <h3 class="font-18 text-white">Om hjemmesiden</h3>
-                        <h3 class="font-18 text-white">Find dit drømmehjem med os – Din pålidelige ejendomspartner</h3>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
-                    <h3 class="font-18 text-white">Kontakt os</h3>
-                    <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i> H.C. Andersens Vej 9, 8800 </p>
-                    <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+45 8950 3300</p>
-                    <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+45 8950 3300</p>
-                    <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>mercantec@mercantec.dk</p>
-                </div>
-                <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
-                    <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
-                        <li class="list-inline-item">
-                            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f font-22"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram font-22"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat font-22"></i></a>
-                        </li>
-
-                        <li class="list-inline-item">
-                            <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube font-22"></i></a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-            <div class="footer-bottom row">
-                <div class="col-md-4 col-lg-6">
-                    <p>© 2024. Alle rettigheder forbeholdes.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 
 @code {
     [SupplyParameterFromForm]
-    public User User { get; set; } = new();
+    public User LoginUser { get; set; } = new();
+    private User RegisterUser { get; set; } = new();
+    private string? ConfirmPassword { get; set; }
     private string? errorMessage;
+    private string? registrationErrorMessage;
 
     private async Task Authenticate()
     {
-        var result = await JSRuntime.InvokeAsync<Dictionary<string, object>>("loginUser", User.Email, User.Password);
+        var result = await JSRuntime.InvokeAsync<Dictionary<string, object>>("loginUser", LoginUser.Email, LoginUser.Password);
 
         // Check if the login was successful or not
         if (result.Count == 1)
@@ -147,6 +134,36 @@
         {
             // If login failed, display the error message
             errorMessage = "Invalid email or password. Please try again.";
+        }
+    }
+    private async Task HandleRegistration()
+    {
+        // Validate that the passwords match
+        if (RegisterUser.Password != ConfirmPassword)
+        {
+            registrationErrorMessage = "Passwords do not match.";
+            return;
+        }
+
+        // Check if the email already exists in the database
+        bool emailExists = await BoligService.EmailCheckAsync(RegisterUser);
+        if (emailExists)
+        {
+            registrationErrorMessage = "The email address already exists. Please use a different email.";
+            return;
+        }
+
+        // Call the user registration service to create a new user
+        var result = await BoligService.CreateUserAsync(RegisterUser);
+
+        // Check if the registration was successful
+        if (result > 0)
+        {
+            NavigationManager.NavigateTo("/", forceLoad: true);
+        }
+        else
+        {
+            registrationErrorMessage = "Registration failed. Please try again.";
         }
     }
 }

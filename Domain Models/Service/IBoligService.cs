@@ -12,5 +12,7 @@ namespace Domain.Models.Service
         Task<int> CreateAnnonceWithPicturesAsync(Property property, List<string> pictureLinks);
         Task DeleteProperty(int id);
         Task UpdatePropertyAsync(int id, Property property);
+        Task<int> CreateUserAsync(User user);
+        Task<bool> EmailCheckAsync(User user);
     }
 }

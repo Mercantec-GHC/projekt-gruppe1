@@ -52,7 +52,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         // type id = 3 - its Sommerhouse
-        summerhouses = (BoligService.GetAllPropeties()).Where(i => i.TypeId == PropertyType.Sommerhus);
+        summerhouses = (BoligService.GetAllPropeties()).Where(i => i.PropertyType == PropertyType.Sommerhus);
         pictures = await BoligService.GetAllPictures();  
 
         foreach (var summerhouse in summerhouses)

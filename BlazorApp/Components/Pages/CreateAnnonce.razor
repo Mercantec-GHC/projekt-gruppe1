@@ -134,7 +134,7 @@
                                 </div>
                                 <br />
                                 <div>
-                                    @if (properties.TypeId == PropertyType.Lejlighed)
+                                    @if (properties.PropertyType == PropertyType.Lejlighed)
                                     {
                                         <br />
                                         <div class="card" style="background: #505050; border-radius: 15px;">
@@ -161,7 +161,7 @@
                                 </div>
 
                                 <div>
-                                    @if (properties.TypeId == PropertyType.Sommerhus)
+                                    @if (properties.PropertyType == PropertyType.Sommerhus)
                                     {
                                         <br />
                                         <div class="card" style="background: #505050; border-radius: 15px;">
@@ -295,15 +295,15 @@
     {
         if (properties.Floor > 0 || properties.HasElevator || properties.HasBalcony)
         {
-            properties.TypeId = PropertyType.Lejlighed;
+            properties.PropertyType = PropertyType.Lejlighed;
         }
         else if (properties.IsSeasonal || properties.DistanceToBeach > 0 || properties.HasPrivatePool)
         {
-            properties.TypeId = PropertyType.Sommerhus;
+            properties.PropertyType = PropertyType.Sommerhus;
         }
         else
         {
-            properties.TypeId = PropertyType.Hus;
+            properties.PropertyType = PropertyType.Hus;
         }
     }
 
