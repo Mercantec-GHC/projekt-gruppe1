@@ -1,0 +1,24 @@
+﻿@page "/logout"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await PerformLogout();
+    }
+
+    private async Task PerformLogout()
+    {
+        var result = await JSRuntime.InvokeAsync<string>("logoutUser");
+
+        if (result == "Logged out successfully")
+        {
+            NavigationManager.NavigateTo("/", forceLoad: true);
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/login", forceLoad: true);
+        }
+    }
+}

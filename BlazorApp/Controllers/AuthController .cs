@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-[Route("api/login")]
+[Route("api/auth")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
         _boligService = boligService; 
     }
 
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] User model)
     {
         var userAccount = (await _boligService.GetUsers())
@@ -47,10 +47,10 @@ public class AuthController : ControllerBase
         return Unauthorized("Invalid credentials");
     }
 
-    //[HttpPost]
-    //public async Task<IActionResult> Logout()
-    //{
-    //    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-    //    return Ok("Logged out successfully");
-    //}
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return Ok("Logged out successfully");
+    }
 }
