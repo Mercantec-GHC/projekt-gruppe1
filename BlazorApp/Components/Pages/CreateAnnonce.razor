@@ -38,185 +38,237 @@
                         <DataAnnotationsValidator />
                         <ValidationSummary />
 
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <InputText id="title" class="form-control" @bind-Value="properties.Title" required />
+                        <div class="card" style="background: #404040; border-radius: 15px;">
+                            <div class="container">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Titel</label>
+                                    <InputText style="border-radius:10px" id="title" class="form-control" @bind-Value="properties.Title" required />
+                                    @if (string.IsNullOrWhiteSpace(properties.Title))
+                                    {
+                                        <div class="text-danger">Du mangler at udfylde Titel.</div>
+                                    }
+                                </div>
+                                <select style="border-radius:10px" id="typeId" class="form-control"
+                                        @bind-Value="properties.TypeId" @bind-Value:event="onchange">
+                                    <option value="" disabled selected hidden>Select Type</option>
+                                    <option value="1">Hus</option>
+                                    <option value="2">Lejlighed</option>
+                                    <option value="3">Sommerhus</option>
+                                </select>
+                                <br />
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Pris</label>
+                                    <InputNumber style="border-radius:10px" id="price" class="form-control" @bind-Value="properties.Price" required />
+                                    @if (properties.Price == null || properties.Price == 0)
+                                    {
+                                        <span class="text-danger">Du mangler at udfylde Prisen.</span>
+                                    }
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="year" class="form-label">År bygget</label>
+                                    <InputNumber style="border-radius:10px" id="year" class="form-control" @bind-Value="properties.Year" required Max="2024" />
+                                    @if (properties.Year == null || properties.Year == 0)
+                                    {
+                                        <span class="text-danger">Du mangler at udfylde År byttet.</span>
+                                    }
+
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="squareMeters" class="form-label">kvadratmeter</label>
+                                    <InputNumber style="border-radius:10px" id="squareMeters" class="form-control" @bind-Value="properties.SquareMeters" required />
+                                    @if (properties.SquareMeters == null || properties.SquareMeters == 0)
+                                    {
+                                        <span class="text-danger">Du mangler at udfylde Hvor mange Kvadratmeter.</span>
+                                    }
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="location" class="form-label">lokation</label>
+                                    <InputText style="border-radius:10px" id="location" class="form-control" @bind-Value="properties.Location" required />
+                                    @if (string.IsNullOrWhiteSpace(properties.Location))
+                                    {
+                                        <span class="text-danger">Du mangler at udfylde lokation.</span>
+                                    }
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Beskrivelse</label>
+                                    <InputTextArea style="border-radius:10px" id="description" class="form-control" @bind-Value="properties.Description" />
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="roomsCount" class="form-label">Rum</label>
+                                    <InputNumber style="border-radius:10px" id="roomsCount" class="form-control" @bind-Value="properties.RoomsCount" required />
+                                    @if (properties.RoomsCount == null || properties.RoomsCount == 0)
+                                    {
+                                        <span class="text-danger">Du mangler at udfylde Hvor mange Room der er.</span>
+                                    }
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ownerId" class="form-label">EjerId</label>
+                                    <InputNumber style="border-radius:10px" id="ownerId" class="form-control" @bind-Value="properties.OwnerId" required />
+                                    @if (properties.OwnerId == null || properties.OwnerId == 0)
+                                    {
+                                        <span class="text-danger">OwenrId. </span>
+                                    }
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="hasGarden" class="form-label">Have</label>
+                                    <InputCheckbox style="border-radius:10px" id="hasGarden" class="form-check-input" @bind-Value="properties.HasGarden" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="numberOfFloors" class="form-label">Etagse</label>
+                                    <InputNumber style="border-radius:10px" id="numberOfFloors" class="form-control" @bind-Value="properties.NumberOfFloors" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="hasGarage" class="form-label">Garage</label>
+                                    <InputCheckbox style="border-radius:10px" id="hasGarage" class="form-check-input" @bind-Value="properties.HasGarage" />
+                                </div>
+                                <br />
+                                <div>
+                                    @if (properties.TypeId == PropertyType.Lejlighed)
+                                    {
+                                        <br />
+                                        <div class="card" style="background: #505050; border-radius: 15px;">
+                                            <div class="container">
+                                                <h1 style="color: ghostwhite">Lejlighed specific</h1>
+
+                                                <div class="mb-3">
+                                                    <label for="floor" class="form-label">Etage</label>
+                                                    <InputNumber style="border-radius:10px" id="floor" class="form-control" @bind-Value="properties.Floor" />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="hasBalcony" class="form-label">Altan</label>
+                                                    <InputCheckbox style="border-radius:10px" id="hasBalcony" class="form-check-input" @bind-Value="properties.HasBalcony" />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="hasElevator" class="form-label">Elevator</label>
+                                                    <InputCheckbox style="border-radius:10px" id="hasElevator" class="form-check-input" @bind-Value="properties.HasElevator" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div>
+                                    @if (properties.TypeId == PropertyType.Sommerhus)
+                                    {
+                                        <br />
+                                        <div class="card" style="background: #505050; border-radius: 15px;">
+                                            <div class="container">
+                                                <h1 style="color: ghostwhite">Summerhus specific</h1>
+
+                                                <div class="mb-3">
+                                                    <label for="distanceToBeach" class="form-label">km/meters til strand</label>
+                                                    <InputNumber style="border-radius:10px" id="distanceToBeach" class="form-control" @bind-Value="properties.DistanceToBeach" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="isSeasonal" class="form-label">Sæson</label>
+                                                    <InputCheckbox style="border-radius:10px" id="isSeasonal" class="form-check-input" @bind-Value="properties.IsSeasonal" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="hasPrivatePool" class="form-label">Privat pool</label>
+                                                    <InputCheckbox style="border-radius:10px" id="hasPrivatePool" class="form-check-input" @bind-Value="properties.HasPrivatePool" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="newPictureLink" class="form-label">Billede Link</label>
+                                    <InputText style="border-radius:10px" id="newPictureLink" class="form-control" @bind-Value="newPictureLink" />
+                                    <button type="button" class="btn btn-secondary mt-2" @onclick="AddPicture">Tilføj billede</button>
+                                </div>
+                                <h5 class="mt-4" style="color: ghostwhite">tilføjet billeder:</h5>
+                                <ul>
+                                    @if (pictures.Any())
+                                    {
+                                        foreach (var picture in pictures)
+                                        {
+                                            <li>
+                                                @picture.PictureLink
+                                                <button class="btn btn-danger btn-sm" @onclick="() => RemovePicture(picture)">Remove</button>
+                                            </li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li style="color: white;">Ingen billeder tilføjet.</li>
+                                    }
+                                </ul>
+                                <br />
+                                <br />
+                            </div>
                         </div>
-
-                        <div class="mb-3">
-                            <label for="year" class="form-label">Year Built</label>
-                            <InputNumber id="year" class="form-control" @bind-Value="properties.Year" required Max="2024" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="price" class="form-label">Price</label>
-                            <InputNumber id="price" class="form-control" @bind-Value="properties.Price" required />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="squareMeters" class="form-label">Square Meters</label>
-                            <InputNumber id="squareMeters" class="form-control" @bind-Value="properties.SquareMeters" required />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="location" class="form-label">Location</label>
-                            <InputText id="location" class="form-control" @bind-Value="properties.Location" required />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <InputTextArea id="description" class="form-control" @bind-Value="properties.Description" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="ownerId" class="form-label">Owner ID</label>
-                            <InputNumber id="ownerId" class="form-control" @bind-Value="properties.OwnerId" required />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="typeId" class="form-label">Type</label>
-                            <select id="typeId" class="form-control" @onchange="OnTypeChanged">
-                                <option value="0" disabled selected hidden>Select Type</option>
-                                <option value="1">Hus</option>
-                                <option value="2">Lejlighed</option>
-                                <option value="3">Sommerhus</option>
-                            </select>
-                        </div>
-
-                        <p>Selected Type: @properties.TypeId</p>
-
-                        <div class="mb-3">
-                            <label for="hasGarden" class="form-label">Has Garden</label>
-                            <InputCheckbox id="hasGarden" class="form-check-input" @bind-Value="properties.HasGarden" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="numberOfFloors" class="form-label">Number of Floors</label>
-                            <InputNumber id="numberOfFloors" class="form-control" @bind-Value="properties.NumberOfFloors" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="hasGarage" class="form-label">Has Garage</label>
-                            <InputCheckbox id="hasGarage" class="form-check-input" @bind-Value="properties.HasGarage" />
-                        </div>
-
-                        <h2 style="color: lightgray">Lejlighed specific</h2>
-
-                        <div class="mb-3">
-                            <label for="floor" class="form-label">What floor on</label>
-                            <InputNumber id="floor" class="form-control" @bind-Value="properties.Floor" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="roomsCount" class="form-label">Rooms</label>
-                            <InputNumber id="roomsCount" class="form-control" @bind-Value="properties.RoomsCount" required />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="hasBalcony" class="form-label">Balcony</label>
-                            <InputCheckbox id="hasBalcony" class="form-check-input" @bind-Value="properties.HasBalcony" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="hasElevator" class="form-label">Elevator</label>
-                            <InputCheckbox id="hasElevator" class="form-check-input" @bind-Value="properties.HasElevator" />
-                        </div>
-
-                        <h1 style="color: ghostwhite">Summerhus specific</h1>
-                        <div class="mb-3">
-                            <label for="isSeasonal" class="form-label">Seasonal</label>
-                            <InputCheckbox id="isSeasonal" class="form-check-input" @bind-Value="properties.IsSeasonal" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="distanceToBeach" class="form-label">km/meters to Beach</label>
-                            <InputNumber id="distanceToBeach" class="form-control" @bind-Value="properties.DistanceToBeach" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="hasPrivatePool" class="form-label">Private Pool</label>
-                            <InputCheckbox id="hasPrivatePool" class="form-check-input" @bind-Value="properties.HasPrivatePool" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="newPictureLink" class="form-label">Picture Link</label>
-                            <InputText id="newPictureLink" class="form-control" @bind-Value="newPictureLink" />
-                            <button type="button" class="btn btn-secondary mt-2" @onclick="AddPicture">Add Picture</button>
-                        </div>
-
-                        <br>
-                        <h5 class="mt-4" style="color: ghostwhite">Added Pictures:</h5>
-                        <ul>
-                            @if (pictures.Any())
-                            {
-                                foreach (var picture in pictures)
-                                {
-                                    <li>
-                                        @picture.PictureLink
-                                        <button class="btn btn-danger btn-sm" @onclick="() => RemovePicture(picture)">Remove</button>
-                                    </li>
-                                }
-                            }
-                            else
-                            {
-                                <li style="color: white;">No pictures added yet.</li>
-                            }
-                        </ul>
-
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <br />
+                        <br />
+                        <br />
+                        <button type="submit" style="" class="btn btn-primary">Send</button>
                     </EditForm>
                 </div>
             </section>
         </div>
+    </div>
 
-        <!-- Footer -->
-        <footer id="footer" class="footer-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="footer-about">
-                            <h3 class="font-18 text-white">Om hjemmesiden</h3>
-                            <h3 class="font-18 text-white">Find dit drømmehjem med os – Din pålidelige ejendomspartner</h3>
-                        </div>
+    <!-- Footer -->
+    <footer id="footer" class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="footer-about">
+                        <h3 class="font-18 text-white">Om hjemmesiden</h3>
+                        <h3 class="font-18 text-white">Find dit drømmehjem med os – Din pålidelige ejendomspartner</h3>
                     </div>
-                    <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
-                        <h3 class="font-18 text-white">Kontakt os</h3>
-                        <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i> H.C. Andersens Vej 9, 8800 </p>
-                        <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+45 8950 3300</p>
-                        <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+45 8950 3300</p>
-                        <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>mercantec@mercantec.dk</p>
-                    </div>
-                    <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
-                        <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
-                            <li class="list-inline-item">
-                                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f font-22"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram font-22"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat font-22"></i></a>
-                            </li>
-
-                            <li class="list-inline-item">
-                                <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube font-22"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-
                 </div>
-                <div class="footer-bottom row">
-                    <div class="col-md-4 col-lg-6">
-                        <p>© 2024. Alle rettigheder forbeholdes.</p>
-                    </div>
+                <div class="col-md-6 col-lg-4 mt-4 mt-md-0">
+                    <h3 class="font-18 text-white">Kontakt os</h3>
+                    <p class="mt-4 pt-2 pe-5 d-flex mb-3"><i class="fas fa-map-marker-alt mt-1 font-22 me-3"></i> H.C. Andersens Vej 9, 8800 </p>
+                    <p class="pe-5 d-flex mb-3"><i class="fab fa-whatsapp mt-1 font-22 me-3"></i>+45 8950 3300</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fas fa-phone-alt mt-1 font-22 me-3"></i>+45 8950 3300</p>
+                    <p class="pe-5 d-flex mb-3"><i class="fas fa-envelope mt-1 font-22 me-3"></i>mercantec@mercantec.dk</p>
+                </div>
+                <div class="col-md-12 col-lg-4 mt-4 mt-lg-0">
+                    <ul class="list-unstyled list-inline footer-social-link mt-4 pt-3">
+                        <li class="list-inline-item">
+                            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram font-22"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat font-22"></i></a>
+                        </li>
+
+                        <li class="list-inline-item">
+                            <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube font-22"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="footer-bottom row">
+                <div class="col-md-4 col-lg-6">
+                    <p>© 2024. Alle rettigheder forbeholdes.</p>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
+
 </div>
+<p></p>
 
 @code {
-
     private Property properties = new Property();
     private string newPictureLink;
     private List<Pictures> pictures = new List<Pictures>();
@@ -239,6 +291,21 @@
     {
         pictures.Remove(picture);
     }
+    private void TypeidChecker()
+    {
+        if (properties.Floor > 0 || properties.HasElevator || properties.HasBalcony)
+        {
+            properties.TypeId = PropertyType.Lejlighed;
+        }
+        else if (properties.IsSeasonal || properties.DistanceToBeach > 0 || properties.HasPrivatePool)
+        {
+            properties.TypeId = PropertyType.Sommerhus;
+        }
+        else
+        {
+            properties.TypeId = PropertyType.Hus;
+        }
+    }
 
     // Create a method to handle the form submission
     private async Task HandleValidSubmit()
@@ -246,9 +313,11 @@
         try
         {
             properties.Pictures = pictures;
-            properties.CreatedAt = DateTime.Now;
+            TypeidChecker();
             // Call the CreateAnnonceWithPicturesAsync method from the BoligService
+
             var propertyId = await BoligService.CreateAnnonceWithPicturesAsync(properties, pictures.Select(p => p.PictureLink).ToList());
+
             // Clear the form
             isSuccessMessageVisible = true;
 
@@ -260,6 +329,7 @@
             // Log the error
             Console.WriteLine($"Error creating property: {ex.Message}");
         }
+
     }
     private void ClearForm()
     {
@@ -270,13 +340,5 @@
 
         // Reset the new picture link
         newPictureLink = string.Empty;
-    }
-
-    private void OnTypeChanged(ChangeEventArgs e)
-    {
-        if (int.TryParse(e.Value.ToString(), out int selectedType))
-        {
-            properties.TypeId = (PropertyType)selectedType;
-        }
     }
 }

@@ -33,11 +33,25 @@
                                     <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Se alle boliger
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="create">
-                                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Sælg bolig
-                                </a>
-                            </li>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="create">
+                                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Sælg bolig
+                                        </a>
+                                    </li>
+                                </Authorized>
+
+                                <NotAuthorized>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="login">
+                                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Sælg bolig
+                                        </a>
+                                    </li>
+                                </NotAuthorized>
+                            </AuthorizeView>
+                           
+
                             <li class="nav-item">
                                 <a class="nav-link" href="contact">
                                     <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Kontakt os
@@ -46,7 +60,16 @@
                         </ul>
 
                         <!-- LOGIN -->
-                        <a href="login" class="btn btn-warning py-2 px-4 d-lg-block d-none">Log ind</a>
+                        <AuthorizeView>
+                            <Authorized>
+                                <a href="logout" class="btn btn-warning py-2 px-4 d-lg-block d-none">Log ud</a>
+                            </Authorized>
+
+                            <NotAuthorized>
+                                <a href="login" class="btn btn-warning py-2 px-4 d-lg-block d-none">Log ind</a>
+                            </NotAuthorized>
+                        </AuthorizeView>
+
                     </div>
                 </nav>
             </div>

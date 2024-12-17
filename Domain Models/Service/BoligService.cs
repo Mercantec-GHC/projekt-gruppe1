@@ -185,6 +185,5 @@ namespace Domain.Models.Service
                 throw;
             }
         }
-
     }
 }

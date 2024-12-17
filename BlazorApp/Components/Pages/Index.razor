@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IBoligService BoligService
 <div class="main-wrapper">
 	<!-- Banner Section Start -->
@@ -50,6 +52,7 @@
 	</section>
 
 	<!-- Category Box Section End -->
+	
 	<!-- Featured Property Section Start -->
 
 	<section class="home-featured-property spacer">
@@ -199,20 +202,27 @@
 {
 	private List<Property>? Properties;
 	private List<Pictures> dbPictures;
+	private bool userIsAuthenticated;
+
 
 	protected override async Task OnInitializedAsync()
 	{
+		// Get the authentication state
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		// Check if the user is authenticated
+		userIsAuthenticated = user.Identity?.IsAuthenticated ?? false;
+
 		try
 		{
 			Properties = BoligService.GetAllPropeties().OrderByDescending(h => h.CreatedAt).Take(5).ToList();
-
 			dbPictures = await BoligService.GetAllPictures();
 
 			// Associate pictures with the houses
 			foreach (var property in Properties)
 			{
-				// Filter pictures by property ID
-				property.Pictures = (dbPictures.Where(p => p.PropertyId == property.Id)).ToList();
+				property.Pictures = dbPictures.Where(p => p.PropertyId == property.Id).ToList();
 			}
 		}
 		catch (Exception ex)

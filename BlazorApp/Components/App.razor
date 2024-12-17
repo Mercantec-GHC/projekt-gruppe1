@@ -13,8 +13,10 @@
 </head>
 
 <body>
-    <Routes @rendermode="@InteractiveServer" />
-    <script src="_framework/blazor.web.js"></script>
+    <CascadingAuthenticationState>
+        <Routes @rendermode="@InteractiveServer" />
+        <script src="_framework/blazor.web.js"></script>
+    </CascadingAuthenticationState>
 </body>
 
 </html>
