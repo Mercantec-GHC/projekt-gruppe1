@@ -81,8 +81,6 @@ namespace Domain.Models.Service
             return count > 0; // Returns true if a user is found
         }
 
-
-
         public async Task<int> CreateUserAsync(User user)
         {
             using var connection = _dbService.GetConnection();

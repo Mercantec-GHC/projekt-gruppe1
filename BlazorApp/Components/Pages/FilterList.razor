@@ -1,55 +1,119 @@
-﻿@page "/filter/{id:int?}"
+﻿@page "/filter/{id?}"
 @inject IBoligService BoligService
-<h3>Filter List</h3>
 
-<div style="width:20%; border:1px solid black; margin-right:500px; float:left; position:fixed;">
-    <input />
-    <button>Search</button>
-</div>
-
-@if (propertiesById != null && propertiesById.Any())
-{
-    foreach (var property in propertiesById)
-    {
-        var firstImage = property.Pictures?.FirstOrDefault()?.PictureLink;
-        <a href="@property.Id">
-            <div style="width:80%; height:300px; border:solid 1px black; box-shadow:50px black; margin-top:50px; margin-left:300px; padding:20px;">
-                <div style="width:150px; height:150px; float:left; border:solid 1px black;">
-                    <img src="@firstImage" style="width:150px; height:150px;" alt="Alternate Text" />
-                </div>
-                <div style="padding:25px; margin-left:200px; border: solid 1px black;">
-                    <h4>@property.Title</h4> @property.Price Dkk-, <br />
-                    <section>@property.Description</section>
-                    <section>@property.Location</section>
+<div class="main-wrapper">
+    <!-- Banner Section Start -->
+    <section class="inner-page-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-content position-relative">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-white">Home</a></li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">Listing</li>
+                        </ul>
+                        <h1 class="breadcrumb-title text-white"></h1>
+                    </div>
                 </div>
             </div>
-        </a>
+        </div>
+    </section>
+    <!-- Banner Section End -->
+    <div style="width:20%; border:1px solid black;  margin-right:500px; float:left; position: fixed;">
+    <label for="propertyType">Vælg Ejendomstype:</label>
+    <select id="propertyType" @bind="selectedPropertyType">
+        <option value="0">Vælg en type</option>
+        @foreach (var type in Enum.GetValues(typeof(PropertyType)).Cast<PropertyType>())
+        {
+            @if (type != PropertyType.Unknown) 
+            {
+                <option value="@((int)type)">@type</option>
+            }
+        }
+    </select>
+    <button>hej</button>
+</div>
+
+<div>
+    @if (filteredProperties != null && filteredProperties.Any())
+    {
+        @foreach (var property in filteredProperties)
+        {
+            var firstImage = property.Pictures?.FirstOrDefault()?.PictureLink;
+            <a href="@property.Id">
+                <div style="width:80%; height:300px; border:solid 1px black; box-shadow:50px black; margin-top:50px; margin-left:300px; padding:20px;">
+                    <div style="width:150px; height:150px; float:left; border:solid 1px black;">
+                        <img src="@firstImage" style="width:150px; height:150px;" alt="Image" />
+                    </div>
+                    <div style="padding:25px; margin-left:200px; border: solid 1px black;">
+                        <h4>@property.Title</h4> @property.Price Dkk-, <br />
+                        <section>@property.Description</section>
+                        <section>@property.Location</section>
+                    </div>
+                </div>
+            </a>
+        }
     }
-}
-else
-{
-    <p>No properties found.</p>
-}
+    else
+    {
+        <p>Ingen ejendomme fundet.</p>
+    }
+</div>
+</div>
+
+
 
 @code {
     [Parameter]
-    public int? id { get; set; } 
-    private IEnumerable<Property>? properties = null;
-    private IEnumerable<Property>? propertiesById = null;
-    private List<Pictures>? pictures = null;
+    public string id { get; set; }  // Modtager ID fra URL'en
 
+    private PropertyType selectedPropertyType = PropertyType.Unknown;  // Default filter (Unknown)
+    private IEnumerable<Property> properties = null;
+    private IEnumerable<Property> filteredProperties = null;
+    private List<Pictures> pictures = null;
+    private IEnumerable<Property> propertiesByid = null;
     protected override async Task OnInitializedAsync()
     {
+        // Hent ejendomslisterne fra BoligService
         properties = BoligService.GetAllPropeties();
         pictures = await BoligService.GetAllPictures();
 
+        // Tilknyt billeder til hver property
         foreach (var property in properties)
         {
-            property.Pictures = pictures?.Where(p => p.PropertyId == property.Id).ToList();
+            property.Pictures = pictures.Where(p => p.PropertyId == property.Id).ToList();
         }
 
-        propertiesById = id.HasValue
-            ? properties.Where(p => p.TypeId == id.Value)
-            : properties;
+        // Hvis der er et ID i URL'en, brug det til at opdatere filteret
+        if (!string.IsNullOrEmpty(id))
+        {
+            if (Enum.TryParse(id, true, out PropertyType propertyType))
+            {
+                selectedPropertyType = propertyType;
+            }
+        }
+
+        // Anvend filteret
+        ApplyFilter();
     }
-}
+
+    private void OnFilterChanged()
+    {
+        // Opdater ejendomstype og anvend filteret
+        ApplyFilter();
+    }
+
+    private void ApplyFilter()
+    {
+        // Filtrer ejendommene baseret på den valgte ejendomstype
+        if (selectedPropertyType == PropertyType.Unknown)
+        {
+            filteredProperties = properties;  // Vis alle ejendommene
+        }
+        else
+        {
+            filteredProperties = properties.Where(p => (PropertyType)p.TypeId == selectedPropertyType);  // Filtrer baseret på valgt type
+        }
+    }
+   
+    }
