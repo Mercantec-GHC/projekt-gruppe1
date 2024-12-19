@@ -21,16 +21,13 @@
     <!-- Banner Section End -->
     <div style="width:20%; border:1px solid black;  margin-right:500px; float:left; position: fixed;">
     <label for="propertyType">Vælg Ejendomstype:</label>
-    <select id="propertyType" @bind="selectedPropertyType">
-        <option value="0">Vælg en type</option>
-        @foreach (var type in Enum.GetValues(typeof(PropertyType)).Cast<PropertyType>())
-        {
-            @if (type != PropertyType.Unknown) 
-            {
-                <option value="@((int)type)">@type</option>
-            }
-        }
-    </select>
+        <select style="border-radius:10px" id="typeId" class="form-control"
+                @bind="selectedPropertyType" @bind:event="onchange" @bind:after="OnFilterChanged">
+            <option value="@PropertyType.Unknown" disabled selected>Select Type</option>
+            <option value="@PropertyType.Hus">Hus</option>
+            <option value="@PropertyType.Lejlighed">Lejlighed</option>
+            <option value="@PropertyType.Sommerhus">Sommerhus</option>
+        </select>
     <button>hej</button>
 </div>
 
@@ -112,7 +109,8 @@
         }
         else
         {
-            filteredProperties = properties.Where(p => (PropertyType)p.TypeId == selectedPropertyType);  // Filtrer baseret på valgt type
+            filteredProperties = properties.Where(p => (PropertyType)p.TypeId == selectedPropertyType);
+            // Filtrer baseret på valgt type
         }
     }
    
