@@ -112,6 +112,7 @@ namespace Domain.Models.Service
             try 
             {
                 using var connection = _dbService.GetConnection();
+                property.CreatedAt = DateTime.UtcNow;
 
                 // Insert the property and get the generated Id
                 var propertyId = await connection.ExecuteScalarAsync<int>(insertPropertyQuery, property);
